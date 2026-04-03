@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Perfil - Piero Hacks</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+
+body{
+margin:0;
+font-family:'Orbitron',sans-serif;
+color:#fff;
+overflow-x:hidden;
+}
+
+/* ===== FONDO ===== */
+.background-grid{
+position:fixed;
+width:100%;
+height:100%;
+z-index:-2;
+background-color:#0a0a0f;
+background-image:
+linear-gradient(rgba(0,255,255,0.08) 1px, transparent 1px),
+linear-gradient(90deg, rgba(0,255,255,0.08) 1px, transparent 1px);
+background-size:40px 40px;
+animation:gridMove 20s linear infinite;
+}
+
+@keyframes gridMove{
+0%{background-position:0 0;}
+100%{background-position:40px 40px;}
+}
+
+.particles{
+position:fixed;
+width:100%;
+height:100%;
+z-index:-1;
+}
+.particles::before{
+content:"";
+position:absolute;
+width:100%;
+height:100%;
+background-image:radial-gradient(rgba(0,255,255,0.4) 1px, transparent 1px);
+background-size:80px 80px;
+animation:particlesMove 25s linear infinite;
+opacity:0.3;
+}
+@keyframes particlesMove{
+0%{transform:translateY(0);}
+100%{transform:translateY(-100px);}
+}
+
+/* ===== BANNER ===== */
+.banner{
+position:fixed;
+top:0;
+width:100%;
+height:60px;
+background:linear-gradient(90deg,#ff00ff,#00ffff);
+display:flex;
+align-items:center;
+justify-content:center;
+z-index:1000;
+}
+
+.banner::after{
+content:"Piero Hacks";
+font-size:22px;
+font-weight:bold;
+text-shadow:0 0 10px #fff,0 0 20px #00ffff,0 0 30px #ff00ff;
+}
+
+.menu-btn{
+  position:absolute;
+  left:18px;
+  top:14px;
+  background:none;
+  border:none;
+  color:#fff;
+  font-size:26px;
+  cursor:pointer;
+}
+
+/* ===== SIDEBAR ===== */
+.sidebar{
+  position:fixed;
+  top:60px;
+  left:-260px;
+  width:260px;
+  height:100%;
+
+  backdrop-filter: blur(18px);
+  background:rgba(10,10,25,0.65);
+
+  border-right:1px solid rgba(0,255,255,0.2);
+  box-shadow: 0 0 30px #00ffff33;
+
+  transition:all .4s ease;
+  padding-top:20px;
+  z-index:1050;
+}
+
+.sidebar.open{
+  left:0;
+}
+
+.sidebar a{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin:12px 15px;
+  padding:16px 18px;
+  border-radius:14px;
+  font-size:17px;
+  font-weight:bold;
+  letter-spacing:1px;
+  text-decoration:none;
+  color:#00ffff;
+  background:rgba(0,255,255,0.05);
+  border:1px solid rgba(0,255,255,0.2);
+  transition:0.3s;
+}
+
+.sidebar a:hover{
+  color:#000;
+  background:linear-gradient(90deg,#00ffff,#ff00ff);
+  box-shadow:0 0 20px #00ffff,0 0 35px #ff00ff;
+  transform:translateX(8px) scale(1.04);
+}
+/* ===== MAIN ===== */
+.main{
+padding:90px 20px;
+max-width:1100px;
+margin:auto;
+}
+
+/* ===== PERFIL CARD ===== */
+.profile-card{
+background:rgba(20,20,40,.95);
+border-radius:16px;
+padding:25px;
+display:flex;
+align-items:center;
+gap:20px;
+box-shadow:0 0 25px #ff00ff,0 0 40px #00ffff;
+animation:fadeUp .6s ease;
+}
+
+.avatar{
+width:90px;
+height:90px;
+border-radius:50%;
+background:linear-gradient(45deg,#ff00ff,#00ffff);
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:30px;
+font-weight:bold;
+color:#000;
+box-shadow:0 0 20px #00ffff;
+}
+
+.profile-info h2{
+margin:0;
+color:#00ffff;
+text-shadow:0 0 10px #00ffff;
+}
+
+.profile-info p{
+margin:5px 0;
+color:#ff00ff;
+font-size:13px;
+}
+
+.rank{
+margin-top:5px;
+display:inline-block;
+padding:5px 12px;
+border-radius:20px;
+background:linear-gradient(90deg,#ff00ff,#00ffff);
+color:#000;
+font-weight:bold;
+font-size:12px;
+}
+
+/* ===== STATS ===== */
+.stats{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:15px;
+margin-top:25px;
+}
+
+.stat{
+background:rgba(20,20,40,.9);
+padding:15px;
+border-radius:12px;
+text-align:center;
+box-shadow:0 0 12px #00ffff44;
+transition:.3s;
+}
+.stat:hover{
+transform:scale(1.05);
+box-shadow:0 0 20px #00ffff,0 0 30px #ff00ff;
+}
+.stat h3{
+margin:0;
+color:#00ffff;
+}
+.stat span{
+font-size:12px;
+color:#ff00ff;
+}
+
+/* ===== HISTORIAL ===== */
+
+.section-title{
+margin-top:30px;
+font-size:18px;
+color:#00ffff;
+text-shadow:0 0 10px #00ffff;
+}
+
+.history{
+margin-top:15px;
+display:flex;
+flex-direction:column;
+gap:10px;
+}
+
+.history-item{
+background:rgba(20,20,40,.9);
+padding:12px;
+border-radius:10px;
+box-shadow:0 0 10px #00ffff33;
+font-size:13px;
+display:flex;
+justify-content:space-between;
+}
+
+/* ===== ANIM ===== */
+@keyframes fadeUp{
+from{opacity:0;transform:translateY(20px);}
+to{opacity:1;transform:translateY(0);}
+}
+
+@media(max-width:700px){
+.stats{grid-template-columns:repeat(2,1fr);}
+.profile-card{flex-direction:column;text-align:center;}
+}
+
+/* ===== BARRA GASTADO ===== */
+.gasto-box{
+margin-top:12px;
+width:100%;
+}
+
+.gasto-text{
+font-size:12px;
+color:#ccc;
+margin-bottom:4px;
+}
+
+.gasto-bar{
+width:100%;
+height:12px;
+background:#111;
+border-radius:10px;
+overflow:hidden;
+box-shadow:0 0 10px #00ffff33;
+}
+
+.gasto-fill{
+height:100%;
+width:0%;
+background:linear-gradient(90deg,#ff00ff,#00ffff);
+box-shadow:0 0 15px #00ffff,0 0 25px #ff00ff;
+border-radius:10px;
+transition:width 1s ease;
+}
+
+.rango-text{
+margin-top:6px;
+font-size:12px;
+color:#00ffff;
+text-shadow:0 0 8px #00ffff;
+font-weight:bold;
+letter-spacing:1px;
+}
+
+.niveles{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:15px;
+  margin-top:20px;
+}
+
+.nivel{
+  background:rgba(20,20,40,.9);
+  padding:15px;
+  border-radius:12px;
+  text-align:center;
+  border:1px solid #00ffff33;
+  box-shadow:0 0 10px #00ffff33;
+  transition:.3s;
+  position:relative;
+}
+
+.nivel:hover{
+  transform:scale(1.05);
+  box-shadow:0 0 20px #00ffff,0 0 30px #ff00ff;
+}
+
+.nivel h3{
+  color:#00ffff;
+  margin:0;
+}
+
+.nivel span{
+  color:#ff00ff;
+  font-size:12px;
+}
+
+.nivel ul{
+  margin-top:8px;
+  font-size:12px;
+  text-align:left;
+  padding-left:15px;
+}
+
+.estado{
+  margin-top:10px;
+  font-size:12px;
+  font-weight:bold;
+}
+
+.activo{
+  border:2px solid #00ffff;
+  box-shadow:0 0 25px #00ffff,0 0 40px #ff00ff;
+}
+
+.completado{
+  opacity:0.6;
+}
+</style>
+</head>
+
+<body>
+
+<div class="background-grid"></div>
+<div class="particles"></div>
+
+<div class="banner">
+  <button class="menu-btn" id="menuBtn">☰</button>
+  <div class="sidebar" id="sidebar">
+  <a href="dashboard.html"><span>🏠</span> INICIO</a>
+<a href="productos.html"><span>🛒</span> PRODUCTOS</a>
+<a href="perfil.html"><span>👤</span> PERFIL</a>
+<a href="compras.html"><span>🛍️</span> COMPRAS</a>
+<a href="#"><span>⚙️</span> CONFIGURACIÓN</a>
+<a href="#"><span>🚪</span> CERRAR SESIÓN</a>
+</div>
+</div>
+
+<div class="main">
+
+<!-- PERFIL -->
+<div class="profile-card">
+
+<div class="avatar" id="avatar">Z</div>
+
+<div class="profile-info">
+<h2 id="username">Usuario</h2>
+<p id="email">correo@email.com</p>
+<div class="rank">👑 USUARIO VIP</div>
+<div class="gasto-box">
+  <div class="gasto-text">
+    💳 GASTADO EN COMPRAS — <span id="gastoUSD">$0</span>
+  </div>
+
+  <div class="gasto-bar">
+    <div class="gasto-fill" id="gastoFill"></div>
+  </div>
+
+  <div class="rango-text">
+    🏆 RANGO: <span id="rangoUser">NOVATO</span>
+  </div>
+</div>
+  </div>
+</div>
+</div>
+
+</div>
+
+<div class="section-title">🏆 RANGOS DE USUARIO</div>
+
+<div class="niveles">
+
+  <div class="nivel" data-min="0" data-max="99">
+    <div class="nivel-top">🥉</div>
+    <h2>USUARIO</h2>
+    <p>$0 - $99</p>
+    <span>0% DESCUENTO</span>
+    <div class="estado">🔒 Bloqueado</div>
+  </div>
+
+  <div class="nivel" data-min="100" data-max="249">
+    <div class="nivel-top">🟢</div>
+    <h2>VIP</h2>
+    <p>$100 - $249</p>
+    <span>5% DESCUENTO</span>
+    <div class="estado">🔒 Bloqueado</div>
+  </div>
+
+  <div class="nivel" data-min="250" data-max="499">
+    <div class="nivel-top">🔵</div>
+    <h2>PREMIUM</h2>
+    <p>$250 - $499</p>
+    <span>10% DESCUENTO</span>
+    <div class="estado">🔒 Bloqueado</div>
+  </div>
+
+  <div class="nivel" data-min="500" data-max="999">
+    <div class="nivel-top">💎</div>
+    <h2>DIAMOND</h2>
+    <p>$500 - $999</p>
+    <span>15% DESCUENTO</span>
+    <div class="estado">🔒 Bloqueado</div>
+  </div>
+
+  <div class="nivel" data-min="1000" data-max="4999">
+    <div class="nivel-top">🔥</div>
+    <h2>DELUXE</h2>
+    <p>$1000 - $4999</p>
+    <span>20% DESCUENTO</span>
+    <div class="estado">🔒 Bloqueado</div>
+  </div>
+
+  <div class="nivel elite" data-min="5000" data-max="999999">
+    <div class="nivel-top">👑</div>
+    <h2>ELITE</h2>
+    <p>$5000+</p>
+    <span>30% DESCUENTO</span>
+
+    <ul>
+      <li>🔥 30% permanente</li>
+      <li>🎁 2x1 semanal</li>
+      <li>👑 Acceso VIP</li>
+    </ul>
+
+    <div class="estado">🔒 Bloqueado</div>
+  </div>
+
+</div>
+
+<script type="module">
+import { auth } from "./firebase.js";
+import { db } from "./firebase.js";
+
+import { 
+  onAuthStateChanged 
+} from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
+
+import { 
+  doc, getDoc 
+} from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+
+onAuthStateChanged(auth, async (user) => {
+  if(user){
+
+    const name = user.email.split("@")[0];
+
+    document.getElementById("username").textContent = name;
+    document.getElementById("email").textContent = user.email;
+    document.getElementById("avatar").textContent = name.charAt(0).toUpperCase();
+
+    // 🔥 TRAER DINERO REAL
+    const ref = doc(db, "usuarios", user.uid);
+    const snap = await getDoc(ref);
+
+    let totalGastado = 0;
+
+    if(snap.exists()){
+      totalGastado = snap.data().totalGastado || 0;
+    }
+
+    actualizarPerfil(totalGastado);
+  }
+});
+
+function actualizarPerfil(totalGastado){
+
+  let rango = "NOVATO 🥉";
+
+  if(totalGastado >= 50) rango = "CLIENTE 🟢";
+  if(totalGastado >= 150) rango = "VIP 🔵";
+  if(totalGastado >= 300) rango = "PRO 🔥";
+  if(totalGastado >= 500) rango = "LEYENDA 👑";
+
+  document.getElementById("gastoUSD").textContent = "$" + totalGastado;
+  document.getElementById("rangoUser").textContent = rango;
+
+  let porcentaje = (totalGastado / 500) * 100;
+
+  setTimeout(()=>{
+    document.getElementById("gastoFill").style.width = porcentaje + "%";
+  },300);
+
+}
+</script>
+
+</body>
+</html>
