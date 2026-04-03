@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Productos - Piero Hacks</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+
+body{
+  margin:0;
+  font-family:'Orbitron',sans-serif;
+  color:#fff;
+  overflow-x:hidden;
+}
+
+/* ===== FONDO GRID ANIMADO ===== */
+.background-grid{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  z-index:-2;
+
+  background-color:#0a0a0f;
+  background-image:
+    linear-gradient(rgba(0,255,255,0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,255,255,0.08) 1px, transparent 1px);
+  background-size:40px 40px;
+  animation:gridMove 20s linear infinite;
+}
+
+@keyframes gridMove{
+  0%{background-position:0 0,0 0;}
+  100%{background-position:40px 40px,40px 40px;}
+}
+
+/* ===== GLOW ===== */
+.background-grid::before{
+  content:"";
+  position:absolute;
+  width:100%;
+  height:100%;
+  background:radial-gradient(circle, rgba(0,255,255,0.15), transparent 70%);
+  animation:glowMove 10s linear infinite;
+}
+
+@keyframes glowMove{
+  0%{transform:translate(0,0);}
+  50%{transform:translate(40px,40px);}
+  100%{transform:translate(0,0);}
+}
+
+/* ===== PARTICULAS ===== */
+.particles{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  z-index:-1;
+  pointer-events:none;
+}
+
+.particles::before{
+  content:"";
+  position:absolute;
+  width:100%;
+  height:100%;
+  background-image:radial-gradient(rgba(0,255,255,0.4) 1px, transparent 1px);
+  background-size:80px 80px;
+  animation:particlesMove 25s linear infinite;
+  opacity:0.3;
+}
+
+@keyframes particlesMove{
+  0%{transform:translateY(0);}
+  100%{transform:translateY(-100px);}
+}
+
+/* ===== BANNER ===== */
+.banner{
+  position:fixed;
+  top:0;
+  width:100%;
+  height:60px;
+  background:linear-gradient(90deg,#ff00ff,#00ffff);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:1000;
+}
+
+/* TEXTO PRO GAMER */
+.banner::after{
+  content:"Piero Hacks";
+  font-size:22px;
+  font-weight:bold;
+  color:#ffffff;
+
+  text-shadow:
+    0 0 5px #fff,
+    0 0 10px #00ffff,
+    0 0 20px #00ffff,
+    0 0 30px #ff00ff,
+    0 0 40px #ff00ff;
+
+  letter-spacing:2px;
+  animation: glowText 2s ease-in-out infinite alternate;
+}
+
+/* ANIMACION BRILLO */
+@keyframes glowText{
+  0%{
+    text-shadow:
+      0 0 5px #fff,
+      0 0 10px #00ffff,
+      0 0 20px #00ffff,
+      0 0 30px #ff00ff;
+  }
+  100%{
+    text-shadow:
+      0 0 10px #fff,
+      0 0 20px #00ffff,
+      0 0 30px #00ffff,
+      0 0 50px #ff00ff,
+      0 0 70px #ff00ff;
+  }
+}
+
+/* ===== CONTENIDO ===== */
+.main{
+  padding:80px 20px;
+  max-width:1200px;
+  margin:auto;
+}
+
+/* ===== TITULO ===== */
+.title{
+  text-align:center;
+  font-size:32px;
+  font-weight:bold;
+  margin-bottom:30px;
+  letter-spacing:3px;
+
+  background: linear-gradient(90deg, #ff00ff, #00ffff, #ff00ff);
+  background-size: 200% auto;
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+
+  text-shadow:
+    0 0 10px rgba(0,255,255,0.7),
+    0 0 20px rgba(255,0,255,0.7);
+
+  animation: vipGlow 3s linear infinite;
+}
+
+/* ANIMACION PRO */
+@keyframes vipGlow{
+  0%{background-position:0%;}
+  100%{background-position:200%;}
+}
+
+/* ===== FILTROS ===== */
+.filters{
+  display:flex;
+  gap:10px;
+  margin-bottom:25px;
+  flex-wrap:wrap;
+}
+
+select,input{
+  padding:10px;
+  border:none;
+  border-radius:8px;
+  background:#1b1b35;
+  color:#fff;
+  border:1px solid #00ffff33;
+}
+
+input{flex:1;}
+
+select:focus,input:focus{
+  outline:none;
+  box-shadow:0 0 10px #00ffff;
+}
+
+/* ===== GRID ===== */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:22px;
+}
+
+/* ===== CARD ===== */
+.card{
+  background:rgba(20,20,40,.95);
+  border-radius:14px;
+  padding:16px;
+  box-shadow:0 0 15px #ff00ff33,0 0 25px #00ffff22;
+  transition:.3s;
+}
+
+.card:hover{
+  transform:translateY(-6px);
+  box-shadow:0 0 25px #ff00ff,0 0 40px #00ffff;
+}
+
+.card img{
+  width:100%;
+  height:170px;
+  object-fit:cover;
+  border-radius:10px;
+}
+
+.card h3{
+  font-size:16px;
+  text-align:center;
+  margin:12px 0 6px;
+  letter-spacing:1px;
+
+  background: linear-gradient(90deg, #ff00ff, #00ffff, #ff00ff);
+  background-size:200%;
+  color:transparent;
+  -webkit-background-clip:text;
+  background-clip:text;
+
+  text-shadow:
+    0 0 6px rgba(255,0,255,0.6),
+    0 0 12px rgba(0,255,255,0.6);
+
+  animation:titleGlow 3s linear infinite;
+}
+
+@keyframes titleGlow{
+  0%{background-position:0%;}
+  100%{background-position:200%;}
+}
+
+.card p{
+  font-size:12px;
+  text-align:center;
+  color:#aaa;
+  letter-spacing:0.5px;
+
+  opacity:0.8;
+  transition:0.3s;
+}
+
+.card:hover p{
+  color:#fff;
+  opacity:1;
+  text-shadow:0 0 6px #00ffff;
+}
+
+
+/* ===== SELECT GAMER PRO ===== */
+.plan-select{
+  width:100%;
+  margin-top:12px;
+  padding:10px;
+  border-radius:12px;
+  background:#0f0f1f;
+  color:#00ffff;
+  border:1px solid #00ffff55;
+  font-weight:bold;
+  cursor:pointer;
+
+  box-shadow: inset 0 0 10px #00ffff22;
+  transition:.25s;
+}
+
+.plan-select:hover{
+  box-shadow:
+    0 0 12px #00ffff,
+    inset 0 0 12px #00ffff44;
+}
+
+.plan-select:focus{
+  outline:none;
+  box-shadow:
+    0 0 15px #00ffff,
+    0 0 25px #ff00ff;
+}
+
+/* ===== BOTON ===== */
+.buy-btn{
+  width:100%;
+  margin-top:12px;
+  padding:12px;
+  border:none;
+  border-radius:12px;
+
+  background:linear-gradient(90deg,#ff00ff,#00ffff);
+  color:#000;
+  font-weight:bold;
+  letter-spacing:1px;
+
+  cursor:pointer;
+  transition:.3s;
+
+  box-shadow:0 0 10px #ff00ff55;
+}
+
+.buy-btn:hover{
+  transform:scale(1.07);
+  box-shadow:
+    0 0 20px #ff00ff,
+    0 0 35px #00ffff;
+}
+/* ===== MENU BTN ===== */
+.menu-btn{
+  position:absolute;
+  left:18px;
+  top:14px;
+  background:none;
+  border:none;
+  color:#fff;
+  font-size:26px;
+  cursor:pointer;
+}
+
+/* ===== SIDEBAR ===== */
+.sidebar{
+  position:fixed;
+  top:60px;
+  left:-260px;
+  width:260px;
+  height:100%;
+
+  backdrop-filter: blur(18px);
+  background:rgba(10,10,25,0.65);
+
+  border-right:1px solid rgba(0,255,255,0.2);
+  box-shadow: 0 0 30px #00ffff33;
+
+  transition:all .4s ease;
+  padding-top:20px;
+  z-index:1050;
+}
+
+/* CUANDO ABRE */
+.sidebar.open{
+  left:0;
+  animation:sidebarFade .4s ease;
+}
+
+/* ANIMACION ENTRADA */
+@keyframes sidebarFade{
+  from{
+    opacity:0;
+    transform:translateX(-40px);
+  }
+  to{
+    opacity:1;
+    transform:translateX(0);
+  }
+}
+
+.sidebar a{
+  display:flex;
+  align-items:center;
+  gap:10px;
+
+  margin:12px 15px;
+  padding:16px 18px;
+  border-radius:14px;
+
+  font-size:17px;
+  font-weight:bold;
+  letter-spacing:1px;
+
+  text-decoration:none;
+
+  color:#00ffff;
+  background:rgba(0,255,255,0.05);
+
+  border:1px solid rgba(0,255,255,0.2);
+
+  position:relative;
+  overflow:hidden;
+
+  transition:0.3s;
+}
+
+/* EFECTO HOVER PRO */
+.sidebar a:hover{
+  color:#000;
+  background:linear-gradient(90deg,#00ffff,#ff00ff);
+
+  box-shadow:
+    0 0 20px #00ffff,
+    0 0 35px #ff00ff;
+
+  transform:translateX(8px) scale(1.04);
+}
+
+/* LINEA DE LUZ QUE PASA */
+.sidebar a::before{
+  content:"";
+  position:absolute;
+  top:0;
+  left:-120%;
+  width:120%;
+  height:100%;
+
+  background:linear-gradient(120deg, transparent, rgba(255,255,255,0.4), transparent);
+  transition:.6s;
+}
+
+.sidebar a:hover::before{
+  left:120%;
+}
+
+.sidebar a span{
+  display:inline-block;
+  transition:.3s;
+}
+
+.sidebar a:hover span{
+  transform:rotate(10deg) scale(1.2);
+}
+</style>
+</head>
+
+<body>
+
+<div class="background-grid"></div>
+<div class="particles"></div>
+
+<div class="banner">
+  <button class="menu-btn" id="menuBtn">☰</button>
+  <div class="sidebar" id="sidebar">
+  <a href="dashboard.html"><span>🏠</span> INICIO</a>
+<a href="productos.html"><span>🛒</span> PRODUCTOS</a>
+<a href="perfil.html"><span>👤</span> PERFIL</a>
+<a href="compras.html"><span>🛍️</span> COMPRAS</a>
+<a href="#"><span>⚙️</span> CONFIGURACIÓN</a>
+<a href="#"><span>🚪</span> CERRAR SESIÓN</a>
+</div>
+</div>
+
+<div class="main">
+
+<div class="title">💎 PRODUCTOS VIP</div>
+
+<div class="filters">
+<select id="category">
+<option value="all">Todas las categorías</option>
+<option value="drp">DRP CLIENT</option>
+<option value="hg">HG CHEATS</option>
+</select>
+
+<input type="text" id="search" placeholder="Buscar producto...">
+</div>
+
+<div class="grid" id="grid">
+
+<!-- PRODUCTO -->
+<div class="card" data-name="drp client no root" data-category="drp">
+<img src="https://res.cloudinary.com/dc1ze6vwb/image/upload/v1771774278/drip_client_uojequ.jpg">
+<h3>DRP CLIENT NO ROOT</h3>
+<p>Panel con múltiples funciones avanzadas.</p>
+
+<select class="plan-select">
+  <option value="">SELECCIONA LA DURACION</option>
+<option value="3">🔥 1 Día — $3</option>
+<option value="8">⚡ 7 Días — $8</option>
+<option value="12">💎 15 Días — $12</option>
+<option value="18">👑 30 Días — $18</option>
+</select>
+
+<button class="buy-btn">COMPRAR</button>
+</div>
+
+<!-- PRODUCTO -->
+<div class="card" data-name="drp client root" data-category="drp">
+<img src="https://res.cloudinary.com/dc1ze6vwb/image/upload/v1771774278/drip_client_uojequ.jpg">
+<h3>DRP CLIENT ROOT</h3>
+<p>Versión root con mayor potencia.</p>
+
+<select class="plan-select">
+  <option value="">SELECCIONA LA DURACION</option>
+<option value="3">🔥 1 Día — $3</option>
+<option value="8">⚡ 7 Días — $8</option>
+<option value="12">💎 15 Días — $12</option>
+<option value="18">👑 30 Días — $18</option>
+</select>
+
+<button class="buy-btn">COMPRAR</button>
+</div>
+
+<!-- PRODUCTO -->
+<div class="card" data-name="hg cheats" data-category="hg">
+<img src="https://res.cloudinary.com/dc1ze6vwb/image/upload/v1771799798/HG_CHEAST_ftd1vt.jpg">
+<h3>HG CHEATS</h3>
+<p>Compatible root y no root.</p>
+
+<select class="plan-select">
+   <option value="">SELECCIONA LA DURACION</option>
+<option value="3">🔥 1 Día — $3</option>
+<option value="8">⚡ 7 Días — $8</option>
+<option value="12">💎 15 Días — $12</option>
+<option value="18">👑 30 Días — $18</option>
+</select>
+
+<button class="buy-btn">COMPRAR</button>
+</div>
+
+<!-- PRODUCTO -->
+<div class="card" data-name="CUBAN MODS" data-category="hg">
+<img src="https://res.cloudinary.com/dmxbirt9t/image/upload/v1774145793/CUBAN_MODS_kvm9aq.jpg">
+<h3>CUBAN MODS</h3>
+<p>Compatible con no root.</p>
+
+<select class="plan-select">
+   <option value="">SELECCIONA LA DURACION</option>
+<option value="3">🔥 1 Día — $3</option>
+<option value="8">⚡ 7 Días — $8</option>
+<option value="12">💎 15 Días — $12</option>
+<option value="18">👑 30 Días — $18</option>
+</select>
+
+<button class="buy-btn">COMPRAR</button>
+</div>
+
+<!-- PRODUCTO -->
+<div class="card" data-name="BR MODS BYPASS" data-category="hg">
+<img src="https://res.cloudinary.com/dmxbirt9t/image/upload/v1774145847/BR_MODS_BYPASSS_dt5nia.jpg">
+<h3>BR MODS BYPASS</h3>
+<p>panel pc</p>
+
+<select class="plan-select">
+   <option value="">SELECCIONA LA DURACION</option>
+<option value="3">🔥 1 Día — $3</option>
+<option value="8">⚡ 7 Días — $8</option>
+<option value="12">💎 15 Días — $12</option>
+<option value="18">👑 30 Días — $18</option>
+</select>
+
+<button class="buy-btn">COMPRAR</button>
+</div>
+
+<!-- PRODUCTO -->
+<div class="card" data-name="CUENTAS DE NETFLIX" data-category="hg">
+<img src="https://res.cloudinary.com/dmxbirt9t/image/upload/v1774145922/NETFLIX_dqidrz.jpg">
+<h3>CUENTAS DE NETFLIX</h3>
+<p>CUENTAS DE NETFLIX</p>
+
+<select class="plan-select">
+   <option value="">SELECCIONA LA DURACION</option>
+<option value="3">🔥 1 Día — $3</option>
+<option value="8">⚡ 7 Días — $8</option>
+<option value="12">💎 15 Días — $12</option>
+<option value="18">👑 30 Días — $18</option>
+</select>
+
+<button class="buy-btn">COMPRAR</button>
+</div>
+
+<!-- PRODUCTO -->
+<div class="card" data-name="CUENTAS DE DISNEY" data-category="hg">
+<img src="https://res.cloudinary.com/dmxbirt9t/image/upload/v1774145937/DISNEY_qjsns1.jpg">
+<h3>CUENTAS DE DISNEY</h3>
+<p>CUENTAS DE DISNEY</p>
+
+<select class="plan-select">
+   <option value="">SELECCIONA LA DURACION</option>
+<option value="3">🔥 1 Día — $3</option>
+<option value="8">⚡ 7 Días — $8</option>
+<option value="12">💎 15 Días — $12</option>
+<option value="18">👑 30 Días — $18</option>
+</select>
+
+<button class="buy-btn">COMPRAR</button>
+</div>
+
+<!-- PRODUCTO -->
+<div class="card" data-name="HG CHEATS" data-category="hg">
+<img src="https://res.cloudinary.com/dmxbirt9t/image/upload/v1774145996/HG_CHEATAS_ntlkvy.jpg">
+<h3>HG CHEATS</h3>
+<p>panel NO ROOT</p>
+
+<select class="plan-select">
+   <option value="">SELECCIONA LA DURACION</option>
+<option value="3">🔥 1 Día — $3</option>
+<option value="8">⚡ 7 Días — $8</option>
+<option value="12">💎 15 Días — $12</option>
+<option value="18">👑 30 Días — $18</option>
+</select>
+
+<button class="buy-btn">COMPRAR</button>
+</div>
+
+<!-- PRODUCTO -->
+ <div class="card" data-name="nuevo producto" data-category="drp">
+<img src="https://res.cloudinary.com/dmxbirt9t/image/upload/v1774143072/diamond_zsxgl5.jpg">
+
+<h3>NOMBRE DEL PRODUCTO</h3>
+<p>Descripción pro aquí.</p>
+
+<select class="plan-select">
+  <option value="">SELECCIONA LA CANTIDAD</option>
+<option value="3">💎 100 + 10 Diamantes — $1.40</option>
+<option value="8">💎 300 + 31 Diamantes — $3.50</option>
+<option value="12">💎 520 + 52 Diamantes — $5.80</option>
+<option value="18">💎 1.080 + 108 Diamantes — $11.80</option>
+<option value="18">💎 2.180 + 218 Diamantes — $22</option>
+<option value="18">💎 5.680 + 560 Diamantes — $52</option>
+</select>
+
+<button class="buy-btn">COMPRAR</button>
+</div>
+
+</div>
+</div>
+
+<script>
+
+const search = document.getElementById("search");
+const category = document.getElementById("category");
+const cards = document.querySelectorAll(".card");
+
+function filter(){
+  const text = search.value.toLowerCase();
+  const cat = category.value;
+
+  cards.forEach(card=>{
+    const name = card.dataset.name;
+    const c = card.dataset.category;
+
+    const matchText = name.includes(text);
+    const matchCat = cat === "all" || c === cat;
+
+    card.style.display = matchText && matchCat ? "block" : "none";
+  });
+}
+
+search.addEventListener("input", filter);
+category.addEventListener("change", filter);
+
+const menuBtn = document.getElementById('menuBtn');
+const sidebar = document.getElementById('sidebar');
+
+/* ABRIR / CERRAR MENU */
+menuBtn.addEventListener('click', e => {
+  e.stopPropagation();
+  sidebar.classList.toggle('open');
+});
+
+/* CERRAR SI HACES CLICK FUERA */
+document.addEventListener('click', e => {
+  if (sidebar.classList.contains('open') && !sidebar.contains(e.target) && e.target !== menuBtn) {
+    sidebar.classList.remove('open');
+  }
+});
+
+// 🔥 MOSTRAR / OCULTAR BOTON SEGUN SELECCION
+document.querySelectorAll('.card').forEach(card => {
+
+  const select = card.querySelector('.plan-select');
+  const btn = card.querySelector('.buy-btn');
+
+  // ocultar al inicio
+  btn.style.display = "none";
+
+  select.addEventListener('change', () => {
+    if(select.value === ""){
+      btn.style.display = "none";
+    } else {
+      btn.style.display = "block";
+    }
+  });
+
+});
+
+</script>
+
+</body>
+</html>
