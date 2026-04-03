@@ -411,16 +411,10 @@ togglePassword.addEventListener("click", () => {
 });
 </script>
 
-<script type="module>
 
-console.log("🔥 SISTEMA INICIADO");
+<script type="module">
+console.log("🔥 FUNCIONANDO");
 
-import { db } from "./firebase.js";
-import { doc, getDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
-
-const loader = document.getElementById("loaderMantenimiento");
-
-// 🔥 DISEÑO PRO
 function mostrarMantenimiento() {
   document.body.innerHTML = `
   <div style="
@@ -432,80 +426,18 @@ function mostrarMantenimiento() {
   display:flex;
   align-items:center;
   justify-content:center;
-  overflow:hidden;
-  font-family:Orbitron, sans-serif;
+  font-family:Orbitron;
   background:#050507;
+  color:#00ff88;
+  font-size:30px;
   ">
-
-    <div style="
-    position:absolute;
-    width:200%;
-    height:200%;
-    background:
-    radial-gradient(circle, #00ffff22 1px, transparent 1px),
-    radial-gradient(circle, #00ff8822 1px, transparent 1px);
-    background-size: 80px 80px;
-    animation: moverFondo 20s linear infinite;
-    "></div>
-
-    <div style="
-    position:relative;
-    padding:60px 40px;
-    border-radius:25px;
-    text-align:center;
-    max-width:420px;
-    z-index:2;
-    background:rgba(10,10,20,0.9);
-    border:1px solid #00ff88;
-    box-shadow:
-    0 0 25px #00ff88,
-    0 0 60px #00ffff55,
-    inset 0 0 20px #00ff8822;
-    ">
-
-      <div style="
-      font-size:70px;
-      margin-bottom:20px;
-      animation:pulse 1.5s infinite alternate;
-      ">🚧</div>
-
-      <h1 style="
-      font-size:32px;
-      font-weight:900;
-      margin:0;
-      background:linear-gradient(90deg,#00ff88,#00ffff);
-      -webkit-background-clip:text;
-      color:transparent;
-      text-shadow:0 0 20px #00ff88;
-      ">
-      ESTAMOS EN MANTENIMIENTO
-      </h1>
-
-      <p style="
-      margin-top:15px;
-      color:#aaa;
-      font-size:15px;
-      ">
-      Espérenos un momentico 🚀
-      </p>
-
-    </div>
-
-    <style>
-    @keyframes pulse {
-      from { transform: scale(1); opacity:0.7; }
-      to { transform: scale(1.2); opacity:1; }
-    }
-
-    @keyframes moverFondo {
-      from { transform: translate(0,0); }
-      to { transform: translate(-80px,-80px); }
-    }
-    </style>
-
+  ESTAMOS EN MANTENIMIENTO 🚧
   </div>
   `;
 }
+
+// 🔥 FORZAR PARA PROBAR
+mostrarMantenimiento();
 </script>
 
 </body>
