@@ -1,0 +1,1173 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard - Piero Hacks</title>
+
+<style>
+  .pago-container{
+  position:fixed;
+  top:60px;
+  left:0;
+  width:100%;
+  height:calc(100% - 60px);
+  background:linear-gradient(135deg,#0a0a0f,#1f1f2e,#0a0a0f);
+  display:none;
+  flex-direction:column;
+  align-items:center;
+  padding:20px;
+  z-index:1300;
+}
+.pago-container.open{display:flex;}
+
+.paises-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:18px;
+  width:100%;
+  max-width:600px;
+}
+
+@media(max-width:600px){
+  .paises-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+}
+
+.pais-card{
+  background:rgba(30,30,50,.9);
+  border-radius:12px;
+  padding:14px;
+  text-align:center;
+  cursor:pointer;
+  transition:.25s;
+  box-shadow:0 0 12px #00ffff44;
+}
+.pais-card:hover{
+  transform:translateY(-5px) scale(1.05);
+  box-shadow:0 0 25px #00ffff,0 0 40px #ff00ff55;
+}
+.pais-card.selected{
+  outline:2px solid #00ffff;
+  box-shadow:0 0 25px #00ffff,0 0 40px #ff00ff;
+  transform:scale(1.08);
+}
+.pais-card img{
+  width:60px;
+  height:40px;
+  border-radius:4px;
+  margin-bottom:8px;
+}
+
+.volver-btn{
+  margin-top:25px;
+  padding:10px 18px;
+  border:none;
+  border-radius:8px;
+  background:linear-gradient(90deg,#ff00ff,#00ffff);
+  color:#000;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+   .pay-btn{
+  width:100%;
+  padding:10px;
+  border:none;
+  border-radius:8px;
+  background:linear-gradient(90deg,#ff00ff,#00ffff);
+  font-weight:bold;
+  cursor:pointer;
+  color:#000;
+  margin-top:10px;
+  transition:.25s;
+}
+.pay-btn:hover{
+  transform:scale(1.05);
+  box-shadow:0 0 12px #00ffff;
+}
+
+  body{
+  margin:0;
+  font-family:'Orbitron',sans-serif;
+  background: transparent; /* 🔥 en vez del gradient */
+  color:#fff;
+}
+
+/* ===== BANNER ===== */
+.banner{
+  position:fixed;
+  top:0;
+  width:100%;
+  height:60px;
+  background:linear-gradient(90deg,#ff00ff,#00ffff);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:1000;
+}
+
+/* TEXTO PRO GAMER */
+.banner::after{
+  content:"Piero Hacks";
+  font-size:22px;
+  font-weight:bold;
+  color:#ffffff;
+
+  text-shadow:
+    0 0 5px #fff,
+    0 0 10px #00ffff,
+    0 0 20px #00ffff,
+    0 0 30px #ff00ff,
+    0 0 40px #ff00ff;
+
+  letter-spacing:2px;
+  animation: glowText 2s ease-in-out infinite alternate;
+}
+
+@keyframes glowText{
+  0%{
+    text-shadow:
+      0 0 5px #fff,
+      0 0 10px #00ffff,
+      0 0 20px #00ffff,
+      0 0 30px #ff00ff;
+  }
+  100%{
+    text-shadow:
+      0 0 10px #fff,
+      0 0 20px #00ffff,
+      0 0 30px #00ffff,
+      0 0 50px #ff00ff,
+      0 0 70px #ff00ff;
+  }
+}
+
+.banner .menu-btn{
+  position:absolute;
+  left:18px;
+  top:14px;
+  background:none;
+  border:none;
+  color:#fff;
+  font-size:26px;
+  cursor:pointer;
+}
+
+.cart-btn{
+  position:absolute;
+  right:18px;
+  top:14px;
+  background:none;
+  border:none;
+  color:#fff;
+  font-size:24px;
+  cursor:pointer;
+}
+
+.cart-count{
+  position:absolute;
+  top:-6px;
+  right:-8px;
+  background:#ff00ff;
+  color:#fff;
+  font-size:11px;
+  border-radius:50%;
+  padding:2px 6px;
+  box-shadow:0 0 8px #ff00ff;
+}
+
+/* ===== PANEL CARRITO ===== */
+.cart-panel{
+  position:fixed;
+  top:60px;
+  right:0;
+  width:340px;
+  max-width:100%;
+  height:calc(100% - 60px);
+  background:rgba(10,10,25,.98);
+  box-shadow:-2px 0 20px #00ffff;
+  transform:translateX(100%);
+  transition:transform .35s ease;
+  z-index:1200;
+  display:flex;
+  flex-direction:column;
+}
+
+.cart-panel.open{
+  transform:translateX(0);
+}
+
+.cart-header{
+  padding:14px;
+  font-weight:bold;
+  text-align:center;
+  border-bottom:1px solid #00ffff44;
+  color:#00ffff;
+}
+
+.cart-items{
+  flex:1;
+  overflow-y:auto;
+  padding:10px;
+}
+
+.cart-item{
+  background:rgba(30,30,50,.9);
+  border-radius:8px;
+  padding:8px;
+  margin-bottom:8px;
+  display:flex;
+  gap:8px;
+  align-items:center;
+}
+
+.cart-item img{
+  width:50px;
+  height:50px;
+  object-fit:cover;
+  border-radius:6px;
+}
+
+.cart-item-name{
+  flex:1;
+  font-size:12px;
+}
+
+.cart-remove{
+  color:#ff00ff;
+  cursor:pointer;
+  font-size:14px;
+}
+
+.cart-footer{
+  padding:12px;
+  border-top:1px solid #00ffff44;
+}
+
+.cart-total{
+  font-weight:bold;
+  margin-bottom:8px;
+}
+
+/* ===== SIDEBAR ===== */
+.sidebar{
+  position:fixed;
+  top:60px;
+  left:-260px;
+  width:260px;
+  height:100%;
+
+  backdrop-filter: blur(18px);
+  background:rgba(10,10,25,0.65);
+
+  border-right:1px solid rgba(0,255,255,0.2);
+  box-shadow: 0 0 30px #00ffff33;
+
+  transition:all .4s ease;
+  padding-top:20px;
+  z-index:1050;
+}
+
+.sidebar.open{
+  left:0;
+  animation:zetaFadeLeft .4s ease;
+}
+
+.sidebar a{
+  display:flex;
+  align-items:center;
+  gap:10px;
+
+  margin:12px 15px;
+  padding:16px 18px;
+  border-radius:14px;
+
+  font-size:17px;
+  font-weight:bold;
+  letter-spacing:1px;
+
+  text-decoration:none;
+
+  color:#00ffff;
+  background:rgba(0,255,255,0.05);
+
+  border:1px solid rgba(0,255,255,0.2);
+
+  position:relative;
+  overflow:hidden;
+
+  transition:0.3s;
+}
+
+/* HOVER PRO */
+.sidebar a:hover{
+  color:#000;
+  background:linear-gradient(90deg,#00ffff,#ff00ff);
+
+  box-shadow:
+    0 0 20px #00ffff,
+    0 0 35px #ff00ff;
+
+  transform:translateX(8px) scale(1.04);
+}
+
+/* EFECTO LUZ */
+.sidebar a::before{
+  content:"";
+  position:absolute;
+  top:0;
+  left:-120%;
+  width:120%;
+  height:100%;
+
+  background:linear-gradient(120deg, transparent, rgba(255,255,255,0.4), transparent);
+  transition:.6s;
+}
+
+.sidebar a:hover::before{
+  left:120%;
+}
+
+.sidebar a:hover{
+  background:#00ffff;
+  color:#000;
+}
+
+/* ===== MAIN ===== */
+.main{
+  padding:80px 16px 25px;
+  max-width:1200px;
+  margin:auto;
+}
+
+/* ===== USER INFO ===== */
+.user-info{
+  background:rgba(30,30,50,.9);
+  padding:16px;
+  border-radius:10px;
+  box-shadow:0 0 20px #ff00ff,0 0 30px #00ffff;
+  text-align:center;
+  margin-bottom:20px;
+  animation:zetaFadeUp .6s ease;
+}
+.user-info h2{
+  margin:0;
+  color:#00ffff;
+  text-shadow:0 0 10px #00ffff;
+  font-size:20px;
+}
+.user-info p{
+  color:#ff00ff;
+  font-weight:bold;
+  font-size:13px;
+}
+
+/* ===== BOTON VER PRODUCTOS ===== */
+/* NUEVO: CONTENEDOR DE BOTONES PRO */
+
+.botones-sociales{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:15px;
+  margin:18px 0 25px;
+  flex-wrap:wrap;
+}
+
+/* BOTONES GENERALES */
+
+.social-btn{
+  padding:12px 18px;
+  font-size:13px;
+  font-weight:bold;
+  border:none;
+  border-radius:12px;
+  cursor:pointer;
+  transition:.3s;
+  letter-spacing:1px;
+  text-decoration:none;
+  display:inline-block;
+}
+
+/* TELEGRAM */
+
+.telegram-btn2{
+  background:linear-gradient(90deg,#0088cc,#00eaff);
+  color:#000;
+  box-shadow:0 0 12px #00eaff55;
+}
+.telegram-btn2:hover{
+  transform:scale(1.08);
+  box-shadow:0 0 25px #00eaff,0 0 35px #0088cc;
+}
+
+/* WHATSAPP */
+
+.whatsapp-btn{
+  background:linear-gradient(90deg,#25D366,#00ff9c);
+  color:#000;
+  box-shadow:0 0 12px #00ff9c55;
+}
+.whatsapp-btn:hover{
+  transform:scale(1.08);
+  box-shadow:0 0 25px #00ff9c,0 0 35px #25D366;
+}
+
+.ver-productos-container{
+  display:flex;
+  justify-content:center;
+  margin:18px 0 25px;
+  animation:zetaFadeUp .8s ease;
+}
+
+.ver-productos-btn{
+  padding:12px 28px;
+  font-size:14px;
+  font-weight:bold;
+  border:none;
+  border-radius:12px;
+  background:linear-gradient(90deg,#00ffff,#ff00ff);
+  color:#000;
+  cursor:pointer;
+  transition:.3s;
+  box-shadow:0 0 12px #00ffff55;
+  letter-spacing:1px;
+}
+.ver-productos-btn:hover{
+  transform:scale(1.08);
+  box-shadow:0 0 25px #00ffff,0 0 35px #ff00ff;
+}
+
+/* ===== STATS ===== */
+.stats{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:14px;
+  margin-bottom:20px;
+}
+.stat-card{
+  background:rgba(20,20,40,.9);
+  padding:14px 10px;
+  border-radius:10px;
+  text-align:center;
+  box-shadow:0 0 12px #00ffff44;
+  transition:.25s;
+  animation:zetaFadeUp .7s ease;
+}
+.stat-card:hover{
+  transform:translateY(-4px) scale(1.03);
+  box-shadow:0 0 20px #00ffff,0 0 35px #ff00ff55;
+  animation:zetaGlow 1.8s infinite;
+}
+.stat-number{
+  font-size:20px;
+  color:#00ffff;
+  text-shadow:0 0 8px #00ffff;
+  font-weight:bold;
+}
+.stat-label{
+  color:#ff00ff;
+  margin-top:3px;
+  font-size:11px;
+}
+
+/* ===== TITULOS ===== */
+.section-title{
+  font-size:16px;
+  color:#00ffff;
+  text-shadow:0 0 6px #00ffff;
+  margin:18px 0 10px;
+  animation:zetaFadeLeft .6s ease;
+}
+
+/* ===== CARDS ===== */
+.card{
+  position:relative;
+  overflow:hidden;
+}
+
+.card::before{
+  content:"";
+  position:absolute;
+  top:-100%;
+  left:-100%;
+  width:200%;
+  height:200%;
+  background:linear-gradient(120deg, transparent, rgba(0,255,255,0.15), transparent);
+  transform:rotate(25deg);
+  transition:.6s;
+}
+
+.card:hover::before{
+  top:100%;
+  left:100%;
+}
+
+.cards{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:14px;
+}
+.card{
+  background:rgba(30,30,50,.9);
+  padding:14px;
+  border-radius:10px;
+  box-shadow:0 0 12px #ff00ff44;
+  transition:.25s;
+  animation:zetaFadeUp .8s ease;
+}
+.card:hover{
+  transform:translateY(-6px) scale(1.02);
+  box-shadow:0 0 22px #ff00ff,0 0 35px #00ffff44;
+}
+.card h3{
+  margin:0 0 6px;
+  color:#ff00ff;
+  font-size:14px;
+}
+.card p{
+  font-size:12px;
+  color:#ddd;
+  line-height:1.3;
+}
+
+/* ===== ACTIVIDAD ===== */
+.activity-item{
+  background:rgba(20,20,40,.9);
+  padding:10px;
+  border-radius:6px;
+  margin-bottom:8px;
+  font-size:12px;
+  box-shadow:0 0 8px #00ffff33;
+  animation:zetaFadeUp .9s ease;
+}
+
+/* ===== PRODUCTOS ===== */
+.productos-container{
+  position:fixed;
+  top:60px;
+  left:0;
+  width:100%;
+  height:calc(100% - 60px);
+  background:linear-gradient(135deg,#0a0a0f,#1f1f2e,#0a0a0f);
+  display:none;
+  flex-direction:column;
+  align-items:center;
+  padding:20px 10px; 
+  box-sizing:border-box; 
+  z-index:1000;
+  overflow-y:auto;
+}
+.productos-container.open{display:flex;}
+
+.productos-container h2{
+  color:#00ffff;
+  text-shadow:0 0 10px #00ffff;
+}
+
+.filtros{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:10px;
+  margin-bottom:20px;
+  width:100%;
+  max-width:900px;
+}
+
+.filtros button{
+  padding:8px 12px;
+  border:none;
+  border-radius:8px;
+  background:linear-gradient(90deg,#ff00ff,#00ffff);
+  color:#000;
+  font-weight:bold;
+  cursor:pointer;
+  font-size:14px;
+}
+
+.filtros input{
+  padding:8px;
+  border-radius:8px;
+  border:none;
+  width:200px;
+  font-size:14px;
+}
+
+/* ===== GRID ORDENADO PRO ===== */
+.productos-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:18px;
+  width:100%;
+  max-width:1200px;
+  align-items:stretch;
+  margin:0 auto; 
+  box-sizing:border-box; 
+}
+
+/* MÁS ESPACIO ENTRE PRODUCTOS EN MOVIL */
+@media(max-width:500px){
+  .productos-grid{
+    row-gap:50px;
+  }
+}
+
+/* laptop */
+@media(max-width:1100px){
+  .productos-grid{
+    grid-template-columns:repeat(3,1fr);
+  }
+}
+
+/* tablet */
+@media(max-width:800px){
+  .productos-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+}
+
+/* movil */
+@media(max-width:500px){
+  .productos-grid{
+    grid-template-columns:1fr;
+  }
+}
+
+/* cards mismo alto */
+.producto{
+  display:flex;
+  flex-direction:column;
+  height:100%;
+}
+
+/* contenido se expande */
+.producto p{
+  flex:1;
+}
+
+/* imagen consistente */
+.producto img{
+  width:100%;
+  height:170px;
+  object-fit:cover;
+  border-radius:10px;
+}
+
+.producto{
+  background:rgba(30,30,50,.9);
+  padding:14px;
+  border-radius:12px;
+  box-shadow:0 0 15px #ff00ff,0 0 20px #00ffff;
+  text-align:center;
+  transition:.25s;
+}
+.producto:hover{
+  transform:translateY(-6px) scale(1.03);
+  box-shadow:0 0 25px #ff00ff,0 0 40px #00ffff;
+}
+
+.producto img{
+  width:100%;
+  height:180px;
+  object-fit:cover;
+  border-radius:10px;
+  margin-bottom:8px;
+}
+
+.producto h3{color:#ff00ff;font-size:15px;margin:4px 0;}
+.producto p{font-size:13px;margin-bottom:8px;}
+
+/* ===== PLANES ===== */
+.product-plans{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+  margin-top:8px;
+}
+
+.plan-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  background:rgba(0,255,255,0.05);
+  border:1px solid rgba(0,255,255,0.25);
+  border-radius:8px;
+  padding:5px 6px;
+  font-size:11px;
+  transition:.25s;
+}
+
+.plan-row:hover{
+  border-color:#00ffff;
+  box-shadow:0 0 8px #00ffff;
+  transform:scale(1.03);
+}
+
+.plan-price{
+  color:#00ffff;
+  font-weight:bold;
+  text-shadow:0 0 6px #00ffff;
+}
+
+.plan-btn{
+  background:linear-gradient(45deg,#00ffff,#00ff9c);
+  border:none;
+  border-radius:6px;
+  padding:3px 7px;
+  font-size:10px;
+  font-family:Orbitron;
+  cursor:pointer;
+  transition:.25s;
+}
+.plan-btn:hover{
+  transform:scale(1.1);
+  box-shadow:0 0 8px #00ffff;
+}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:1024px){
+  .stats{grid-template-columns:repeat(2,1fr);}
+  .cards{grid-template-columns:repeat(2,1fr);}
+}
+@media(max-width:600px){
+  .stats{grid-template-columns:repeat(2,1fr);}
+  .cards{grid-template-columns:1fr;}
+  .banner{font-size:18px;}
+  .producto img{height:150px;}
+}
+
+/* ===== KEYFRAMES ===== */
+@keyframes zetaFadeUp{
+  from{opacity:0;transform:translateY(18px)}
+  to{opacity:1;transform:translateY(0)}
+}
+@keyframes zetaFadeLeft{
+  from{opacity:0;transform:translateX(-18px)}
+  to{opacity:1;transform:translateX(0)}
+}
+
+@keyframes zetaGlow{
+  0%{box-shadow:0 0 0px #00ffff}
+  50%{box-shadow:0 0 18px #00ffff}
+  100%{box-shadow:0 0 0px #00ffff}
+}
+
+/* carrito full en movil */
+@media(max-width:600px){
+  .cart-panel{
+    width:100%;
+  }
+}
+
+html, body{
+  overflow-x:hidden;
+}
+
+/* 🔥 FONDO GRID IGUAL QUE REGISTER */
+.background-grid {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+
+  background-color: #0a0a0f;
+  background-image:
+    linear-gradient(rgba(0,255,255,0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,255,255,0.08) 1px, transparent 1px);
+  background-size: 40px 40px;
+  animation: gridMove 20s linear infinite;
+}
+
+/* 🔥 GLOW ANIMADO */
+.background-grid::after {
+  content: "";
+  position: absolute;
+  width: 200%;
+  height: 200%;
+  top: -50%;
+  left: -50%;
+  background: radial-gradient(circle, rgba(0,255,255,0.15), transparent 70%);
+  animation: neonMove 12s linear infinite;
+  opacity: 0.4;
+}
+
+/* 🔥 PARTICULAS */
+.particles {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.particles::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-image: radial-gradient(rgba(0,255,255,0.4) 1px, transparent 1px);
+  background-size: 80px 80px;
+  animation: particlesMove 25s linear infinite;
+  opacity: 0.3;
+}
+
+/* 🔥 ANIMACIONES */
+@keyframes gridMove {
+  0% { background-position: 0 0, 0 0; }
+  100% { background-position: 40px 40px, 40px 40px; }
+}
+
+@keyframes neonMove {
+  0% { transform: translate(0,0); }
+  50% { transform: translate(50px,50px); }
+  100% { transform: translate(0,0); }
+}
+
+@keyframes particlesMove {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-100px); }
+}
+</style>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<div class="background-grid"></div>
+<div class="particles"></div>
+
+<div class="banner">
+<button class="menu-btn" id="menuBtn">☰</button>
+<button class="cart-btn" id="cartBtn">🛒<span class="cart-count" id="cartCount">0</span></button>
+</div>
+
+<div class="sidebar" id="sidebar">
+<a href="#" id="inicioBtn"><span>🏠</span> INICIO</a>
+<a href="#" id="comprarBtn"><span>🛒</span> PRODUCTOS</a>
+<a href="perfil.html"><span>👤</span> PERFIL</a>
+<a href="compras.html"><span>🛍️</span> COMPRAS</a>
+<a href="#"><span>⚙️</span> CONFIGURACIÓN</a>
+<a href="#" id="logoutBtn"><span>🚪</span> CERRAR SESIÓN</a>
+</div>
+
+<div class="main">
+
+<div class="user-info">
+<h2 id="usernameDisplay">¡Bienvenido!</h2>
+<p id="emailDisplay"></p>
+</div>
+
+<div class="botones-sociales">
+
+  <!-- TELEGRAM -->
+  <a href="https://t.me/clienteszeta204" target="_blank" class="social-btn telegram-btn2">
+    📢 GRUPO DE CLEINTES TELEGRAM
+  </a>
+
+  <!-- VER PRODUCTOS -->
+  <button class="ver-productos-btn" id="verProductosBtn">
+    🚀 VER PRODUCTOS DISPONIBLES
+  </button>
+
+  <!-- WHATSAPP -->
+  <a href="https://chat.whatsapp.com/CrdaHlM58M3Kjrkdf2rgIv" target="_blank" class="social-btn whatsapp-btn">
+    💬 GRUPO DE CLEINTES WHATSAPP
+  </a>
+
+</div>
+
+<div class="stats">
+<div class="stat-card"><div class="stat-number">+1,284</div><div class="stat-label">Compradores satisfechos</div></div>
+<div class="stat-card"><div class="stat-number">+3,920</div><div class="stat-label">Productos vendidos</div></div>
+<div class="stat-card"><div class="stat-number">99.8%</div><div class="stat-label">Valoraciones positivas</div></div>
+<div class="stat-card"><div class="stat-number">24/7</div><div class="stat-label">Soporte activo</div></div>
+</div>
+
+<div class="section-title">¿Por qué comprar en Piero Hacks?</div>
+<div class="cards">
+<div class="card"><h3>⚡ Entrega instantánea</h3><p>Recibe tus productos digitales inmediatamente después de la compra.</p></div>
+<div class="card"><h3>🔒 Pagos seguros</h3><p>Plataforma protegida y verificada con múltiples métodos de pago.</p></div>
+<div class="card"><h3>🏆 Calidad garantizada</h3><p>Productos probados y verificados por nuestra comunidad gamer.</p></div>
+</div>
+
+<div class="section-title">Actividad reciente</div>
+<div class="activity">
+<div class="activity-item">🟢 Usuario compró Cliente Premium hace 2 min</div>
+<div class="activity-item">🟢 Usuario adquirió Key VIP hace 5 min</div>
+<div class="activity-item">🟢 Nueva valoración ★★★★★ hace 10 min</div>
+</div>
+
+</div>
+
+<!-- PRODUCTOS -->
+<div class="productos-container" id="productosContainer">
+<h2>Productos disponibles</h2>
+<div class="filtros">
+<button>🎮 Todas las categorías</button>
+<input type="text" placeholder="¿Qué estás buscando?">
+</div>
+
+<div class="productos-grid">
+
+<!-- PRODUCTO -->
+<div class="producto">
+<img src="https://res.cloudinary.com/dc1ze6vwb/image/upload/v1771774278/drip_client_uojequ.jpg">
+<h3>DRP CLIENT NO ROOT</h3>
+<p>Las funciones del panel trae: AImkill Aimcover Speed Esp box Esp Fire Up Player Teleport 8m Fast Swap Weapon</p>
+
+<div class="product-plans">
+<div class="plan-row"><span>1 DIA</span><span class="plan-price">3$</span><button class="plan-btn buy-plan" data-name="DRP CLIENT NO ROOT" data-img="https://res.cloudinary.com/dc1ze6vwb/image/upload/v1771774278/drip_client_uojequ.jpg" data-price="3">COMPRAR</button></div>
+<div class="plan-row"><span>7 DIAS</span><span class="plan-price">8$</span><button class="plan-btn buy-plan" data-name="DRP CLIENT NO ROOT" data-img="https://res.cloudinary.com/dc1ze6vwb/image/upload/v1771774278/drip_client_uojequ.jpg" data-price="8">COMPRAR</button></div>
+<div class="plan-row"><span>15 DIAS</span><span class="plan-price">12$</span><button class="plan-btn buy-plan" data-name="DRP CLIENT NO ROOT" data-img="https://res.cloudinary.com/dc1ze6vwb/image/upload/v1771774278/drip_client_uojequ.jpg" data-price="12">COMPRAR</button></div>
+<div class="plan-row"><span>30 DIAS</span><span class="plan-price">18$</span><button class="plan-btn buy-plan" data-name="DRP CLIENT NO ROOT" data-img="https://res.cloudinary.com/dc1ze6vwb/image/upload/v1771774278/drip_client_uojequ.jpg" data-price="18">COMPRAR</button></div>
+</div>
+
+</div>
+
+<!-- PRODUCTO -->
+<div class="producto">
+<img src="https://res.cloudinary.com/dc1ze6vwb/image/upload/v1771774278/drip_client_uojequ.jpg">
+<h3>DRP CLIENT ROOT</h3>
+<p>Las funciones del panel trae: AImkill Aimcover Speed Esp box Esp Fire Up Player Teleport 8m Fast Swap Weapon</p>
+
+
+<div class="product-plans">
+<div class="plan-row"><span>1 DIA</span><span class="plan-price">3$</span><button class="plan-btn buy-plan" data-name="DRP CLIENT ROOT" data-img="https://res.cloudinary.com/dc1ze6vwb/image/upload/v1771774278/drip_client_uojequ.jpg" data-price="3">COMPRAR</button></div>
+<div class="plan-row"><span>7 DIAS</span><span class="plan-price">8$</span><button class="plan-btn buy-plan" data-name="DRP CLIENT ROOT" data-img="https://res.cloudinary.com/dc1ze6vwb/image/upload/v1771774278/drip_client_uojequ.jpg" data-price="8">COMPRAR</button></div>
+<div class="plan-row"><span>15 DIAS</span><span class="plan-price">12$</span><button class="plan-btn buy-plan" data-name="DRP CLIENT ROOT" data-img="https://res.cloudinary.com/dc1ze6vwb/image/upload/v1771774278/drip_client_uojequ.jpg" data-price="12">COMPRAR</button></div>
+<div class="plan-row"><span>30 DIAS</span><span class="plan-price">18$</span><button class="plan-btn buy-plan" data-name="DRP CLIENT ROOT" data-img="https://res.cloudinary.com/dc1ze6vwb/image/upload/v1771774278/drip_client_uojequ.jpg" data-price="18">COMPRAR</button></div>
+</div>
+
+</div>
+
+<!-- PRODUCTO -->
+<div class="producto">
+<img src="https://res.cloudinary.com/dc1ze6vwb/image/upload/v1771799798/HG_CHEAST_ftd1vt.jpg">
+<h3>HG CHEATS (ROOT Y NO ROOT)</h3>
+<p>El panel HG CHEATS viene para los telefonos root y no root (ANDROID), caracacteristicas del panel esp aimbot de todos los tipos speed etc.</p>
+
+<div class="product-plans">
+<div class="plan-row"><span>1 DIA</span><span class="plan-price">3$</span><button class="plan-btn buy-plan" data-name="HG CHEATS (ROOT Y NO ROOT)" data-img="https://res.cloudinary.com/dc1ze6vwb/image/upload/v1771774278/drip_client_uojequ.jpg" data-price="3">COMPRAR</button></div>
+<div class="plan-row"><span>7 DIAS</span><span class="plan-price">8$</span><button class="plan-btn buy-plan" data-name="HG CHEATS (ROOT Y NO ROOT)" data-img="https://res.cloudinary.com/dc1ze6vwb/image/upload/v1771774278/drip_client_uojequ.jpg" data-price="8">COMPRAR</button></div>
+<div class="plan-row"><span>15 DIAS</span><span class="plan-price">12$</span><button class="plan-btn buy-plan" data-name="HG CHEATS (ROOT Y NO ROOT)" data-img="https://res.cloudinary.com/dc1ze6vwb/image/upload/v1771774278/drip_client_uojequ.jpg" data-price="12">COMPRAR</button></div>
+<div class="plan-row"><span>30 DIAS</span><span class="plan-price">18$</span><button class="plan-btn buy-plan" data-name="HG CHEATS (ROOT Y NO ROOT)" data-img="https://res.cloudinary.com/dc1ze6vwb/image/upload/v1771774278/drip_client_uojequ.jpg" data-price="18">COMPRAR</button></div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+<!-- PANEL CARRITO -->
+<div class="cart-panel" id="cartPanel">
+<div class="cart-header">🛒 Tu carrito</div>
+<div class="cart-items" id="cartItems"></div>
+<div class="cart-footer">
+<div class="cart-total" id="cartTotal">Total: $0</div>
+<button class="pay-btn" id="payBtn">PAGAR</button>
+</div>
+</div>
+
+<div class="pago-container" id="pagoContainer">
+  <h2>Elegir país de pago</h2>
+
+  <div class="paises-grid">
+  <div class="pais-card"><img src="https://flagcdn.com/w80/ar.png"><span>Argentina</span></div>
+  <div class="pais-card"><img src="https://flagcdn.com/w80/bo.png"><span>Bolivia</span></div>
+  <div class="pais-card"><img src="https://flagcdn.com/w80/br.png"><span>Brasil</span></div>
+  <div class="pais-card"><img src="https://flagcdn.com/w80/cl.png"><span>Chile</span></div>
+  <div class="pais-card"><img src="https://flagcdn.com/w80/mx.png"><span>México</span></div>
+  <div class="pais-card"><img src="https://flagcdn.com/w80/us.png"><span>Estados Unidos</span></div>
+</div>
+
+  <button class="volver-btn" id="volverCarrito">Volver al carrito</button>
+</div>
+
+<script type="module">
+import { auth, db } from "./firebase.js";
+import { 
+  onAuthStateChanged, 
+  signOut 
+} from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
+
+import { 
+  addDoc, 
+  collection, 
+  serverTimestamp 
+} from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+
+/* ===== ELEMENTOS ===== */
+const menuBtn = document.getElementById('menuBtn');
+const sidebar = document.getElementById('sidebar');
+const usernameDisplay = document.getElementById('usernameDisplay');
+const emailDisplay = document.getElementById('emailDisplay');
+const logoutBtn = document.getElementById('logoutBtn');
+const comprarBtn = document.getElementById('comprarBtn');
+const verProductosBtn = document.getElementById('verProductosBtn');
+const productosContainer = document.getElementById('productosContainer');
+const inicioBtn = document.getElementById('inicioBtn');
+
+/* BASE PATH */
+const BASE_PATH = window.location.pathname.includes("/dashboard")
+  ? window.location.pathname.replace("dashboard.html","")
+  : window.location.pathname;
+
+const LOGIN_URL = BASE_PATH + "index.html";
+
+/* MENU */
+menuBtn.addEventListener('click', e => {
+  e.stopPropagation();
+  sidebar.classList.toggle('open');
+});
+
+document.addEventListener('click', e => {
+  if (sidebar.classList.contains('open') && !sidebar.contains(e.target) && e.target !== menuBtn) {
+    sidebar.classList.remove('open');
+  }
+});
+
+/* AUTH */
+onAuthStateChanged(auth, user => {
+  if (user) {
+    usernameDisplay.textContent = `¡Bienvenido, ${user.email.split('@')[0]}!`;
+    emailDisplay.textContent = user.email;
+  } else {
+    window.location.replace(LOGIN_URL);
+  }
+});
+
+/* LOGOUT */
+logoutBtn.addEventListener('click', async (e) => {
+  e.preventDefault();
+  await signOut(auth);
+  window.location.replace(LOGIN_URL);
+});
+
+// BOTON VER PRODUCTOS
+if(verProductosBtn){
+  verProductosBtn.addEventListener('click', e => {
+    e.preventDefault();
+    window.location.href = "productos.html";
+  });
+}
+
+// BOTON SIDEBAR
+comprarBtn.addEventListener('click', e => {
+  e.preventDefault();
+  window.location.href = "productos.html";
+});
+
+// INICIO
+inicioBtn.addEventListener('click', e => {
+  e.preventDefault();
+  productosContainer.classList.remove('open');
+  sidebar.classList.remove('open');
+});
+
+/* ===== CARRITO ===== */
+const cartBtn = document.getElementById('cartBtn');
+const cartPanel = document.getElementById('cartPanel');
+const cartItemsEl = document.getElementById('cartItems');
+const cartCount = document.getElementById('cartCount');
+const cartTotal = document.getElementById('cartTotal');
+const payBtn = document.getElementById('payBtn');
+const pagoContainer = document.getElementById('pagoContainer');
+const volverCarrito = document.getElementById('volverCarrito');
+
+let cart = [];
+
+cartBtn.onclick = ()=> cartPanel.classList.toggle('open');
+
+function renderCart(){
+  cartItemsEl.innerHTML="";
+  let total=0;
+
+  cart.forEach((item,i)=>{
+    total+=item.price;
+    const el=document.createElement('div');
+    el.className="cart-item";
+    el.innerHTML=`
+      <img src="${item.img}">
+      <div class="cart-item-name">${item.name} - $${item.price}</div>
+      <div class="cart-remove" data-i="${i}">✖</div>
+    `;
+    cartItemsEl.appendChild(el);
+  });
+
+  cartCount.textContent=cart.length;
+  cartTotal.textContent="Total: $"+total;
+}
+
+/* BOTONES PLAN (NO TOCAR DISEÑO) */
+document.querySelectorAll('.buy-plan').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    cart.push({
+      name:btn.dataset.name,
+      img:btn.dataset.img,
+      price:Number(btn.dataset.price)
+    });
+    renderCart();
+  });
+});
+
+/* ELIMINAR ITEM */
+cartItemsEl.addEventListener('click',e=>{
+  if(e.target.classList.contains('cart-remove')){
+    cart.splice(e.target.dataset.i,1);
+    renderCart();
+  }
+});
+
+/* ===== PAGAR (🔥 AQUÍ ESTÁ LO NUEVO) ===== */
+if(payBtn && pagoContainer && cartPanel){
+
+  payBtn.addEventListener("click", async () => {
+
+    if(cart.length===0) return;
+
+    const user = auth.currentUser;
+    if(!user) return alert("No logueado");
+
+    // 🔥 GUARDAR TODAS LAS COMPRAS EN FIREBASE
+    for(const item of cart){
+      await addDoc(collection(db, "compras"), {
+        userId: user.uid,
+        producto: item.name,
+        precio: item.price,
+        estado: "pendiente",
+        fecha: serverTimestamp()
+      });
+    }
+
+    alert("🟡 Compra enviada al sistema\nEspera aprobación del admin");
+
+    cart = [];
+    renderCart();
+
+    cartPanel.classList.remove('open');
+    pagoContainer.classList.remove('open');
+  });
+
+  volverCarrito.addEventListener("click", () => {
+    pagoContainer.classList.remove('open');
+    cartPanel.classList.add('open');
+  });
+
+}
+
+/* SELECCION PAIS */
+document.querySelectorAll('.pais-card').forEach(card=>{
+  card.addEventListener('click',()=>{
+    document.querySelectorAll('.pais-card').forEach(c=>c.classList.remove('selected'));
+    card.classList.add('selected');
+  });
+});
+</script>
+</body>
+</html>    
