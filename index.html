@@ -422,8 +422,7 @@ const loader = document.getElementById("loaderMantenimiento");
 
 // 🔥 DISEÑO PRO
 function mostrarMantenimiento() {
-  document.body.innerHTML = "<h1 style='color:red'>FUNCION NUEVA</h1>";
-}
+  document.body.innerHTML = `
   <div style="
   position:fixed;
   top:0;
@@ -438,26 +437,11 @@ function mostrarMantenimiento() {
   background:#050507;
   ">
 
-    <!-- 🔥 FONDO ANIMADO -->
     <div style="
-    position:absolute;
-    width:200%;
-    height:200%;
-    background:
-    radial-gradient(circle, #00ffff22 1px, transparent 1px),
-    radial-gradient(circle, #00ff8822 1px, transparent 1px);
-    background-size: 80px 80px;
-    animation: moverFondo 20s linear infinite;
-    "></div>
-
-    <!-- 🔥 CAJA PRINCIPAL -->
-    <div style="
-    position:relative;
     padding:60px 40px;
     border-radius:25px;
     text-align:center;
     max-width:420px;
-    z-index:2;
 
     background:rgba(10,10,20,0.9);
     border:1px solid #00ff88;
@@ -468,18 +452,15 @@ function mostrarMantenimiento() {
     inset 0 0 20px #00ff8822;
     ">
 
-      <!-- ICONO -->
       <div style="
       font-size:70px;
       margin-bottom:20px;
       animation:pulse 1.5s infinite alternate;
       ">🚧</div>
 
-      <!-- TITULO -->
       <h1 style="
       font-size:32px;
       font-weight:900;
-      margin:0;
 
       background:linear-gradient(90deg,#00ff88,#00ffff);
       -webkit-background-clip:text;
@@ -490,16 +471,10 @@ function mostrarMantenimiento() {
       ESTAMOS EN MANTENIMIENTO
       </h1>
 
-      <!-- TEXTO -->
-      <p style="
-      margin-top:15px;
-      color:#aaa;
-      font-size:15px;
-      ">
+      <p style="margin-top:15px;color:#aaa;">
       Esperenos un momentico 🚀
       </p>
 
-      <!-- LINEA ANIMADA -->
       <div style="
       margin-top:25px;
       height:4px;
@@ -516,27 +491,20 @@ function mostrarMantenimiento() {
         "></div>
       </div>
 
-      <!-- TEXTO BLOQUEO -->
       <p style="
       margin-top:15px;
       font-size:12px;
       color:#00ff88;
       ">
-      🔒 Acceso temporalmente deshabilitado
+      🔒 Acceso bloqueado
       </p>
 
     </div>
 
-    <!-- 🔥 ANIMACIONES -->
     <style>
     @keyframes pulse {
       from { transform: scale(1); opacity:0.7; }
       to { transform: scale(1.2); opacity:1; }
-    }
-
-    @keyframes moverFondo {
-      from { transform: translate(0,0); }
-      to { transform: translate(-80px,-80px); }
     }
 
     @keyframes barra {
@@ -547,33 +515,6 @@ function mostrarMantenimiento() {
 
   </div>
   `;
-}
-
-// ⚡ CACHE INSTANTÁNEO
-
-
-// 🔥 FIREBASE
-try {
-  const ref = doc(db,"config","web");
-  const snap = await getDoc(ref);
-
-  if(snap.exists()){
-    const estado = snap.data().mantenimiento;
-
-    localStorage.setItem("mantenimiento", estado);
-
-    if(estado){
-      mostrarMantenimiento();
-      return;
-    }
-  }
-
-  // ✅ SI NO HAY MANTENIMIENTO → quitar loader
-  loader.style.display = "none";
-
-} catch(e){
-  console.log("error:", e);
-  loader.style.display = "none";
 }
 </script>
 
