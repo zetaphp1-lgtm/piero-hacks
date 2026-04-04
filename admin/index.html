@@ -4,569 +4,553 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Iniciar Sesión - Piero Hacks</title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<title>ZETA ADMIN GOD</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+
 <style>
-  .password-wrapper {
-  position: relative;
+
+body{
+margin:0;
+font-family:'Orbitron',sans-serif;
+background:#050507;
+color:#fff;
+overflow-x:hidden;
 }
 
-.eye {
-  position: absolute;
-  right: 12px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 26px;
-  height: 16px;
-  border: 2px solid #555;
-  border-radius: 50%;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-.eye::before {
-  content: "";
-  position: absolute;
-  width: 6px;
-  height: 6px;
-  background: #555;
-  border-radius: 50%;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
-.eye.closed {
-  border-radius: 2px;
-  height: 2px;
-  background: #555;
-}
-
-.eye.closed::before {
-  display: none;
-}
-
-  body {
-    margin: 0;
-    font-family: 'Orbitron', sans-serif;
-
-    color: #fff;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    min-height: 100vh;
-    padding-top: 80px;
-    overflow-y: auto;
-  }
-
-  .banner {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 60px;
-    background: linear-gradient(90deg, #ff00ff, #00ffff);
-    color: #000;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 28px;
-    font-weight: bold;
-    text-shadow: 0 0 10px #fff, 0 0 20px #00ffff;
-    z-index: 1000;
-  }
-
-  .container {
-    background: rgba(15, 15, 35, 0.95);
-    padding: 30px;
-    border-radius: 15px;
-    box-shadow: 0 0 20px #ff00ff, 0 0 40px #00ffff;
-    width: 90%;
-    max-width: 400px;
-    border: 2px solid #00ffcc;
-    margin-bottom: 40px;
-  }
-
-  h2 {
-    text-align: center;
-    margin-bottom: 20px;
-    color: #00ffff;
-    text-shadow: 0 0 8px #00ffff;
-  }
-
-  label {
-    display: block;
-    margin-top: 10px;
-    color: #ff00ff;
-    font-size: 14px;
-  }
-
-  input, button {
-    width: 100%;
-    padding: 12px;
-    margin-top: 5px;
-    margin-bottom: 12px;
-    border-radius: 8px;
-    border: 1px solid #555;
-    background: #1b1b35;
-    color: #fff;
-    font-size: 16px;
-    box-sizing: border-box;
-  }
-
-  input:focus {
-    outline: none;
-    border: 2px solid #00ffff;
-    box-shadow: 0 0 10px #00ffff;
-  }
-
-  button {
-    background: linear-gradient(90deg, #ff00ff, #00ffff);
-    border: none;
-    font-weight: bold;
-    cursor: pointer;
-    transition: 0.3s;
-    box-shadow: 0 0 10px #ff00ff, 0 0 15px #00ffff;
-  }
-
-  button:hover {
-    box-shadow: 0 0 20px #ff00ff, 0 0 30px #00ffff;
-    transform: scale(1.05);
-  }
-
-  p.message {
-    min-height: 24px;
-    text-align: center;
-    font-weight: bold;
-    font-size: 14px;
-  }
-  p.message.error { color: #ff4d4d; text-shadow: 0 0 5px #ff4d4d; }
-  p.message.success { color: #00ffcc; text-shadow: 0 0 5px #00ffcc; }
-
-  .link {
-    text-align: center;
-    margin-top: 10px;
-    font-size: 14px;
-  }
-  .link a {
-    color: #ff00ff;
-    text-decoration: none;
-    font-weight: bold;
-  }
-  .link a:hover {
-    color: #00ffff;
-  }
-
-  .container::before {
-    content: "🎮";
-    font-size: 36px;
-    display: block;
-    text-align: center;
-    margin-bottom: 10px;
-  }
-
-  /* 🔥 BOTÓN TELEGRAM OWNER 🔥 */
-  .owner-contact {
-    margin-top: 18px;
-    text-align: center;
-  }
-
-  .telegram-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    width: 100%;
-    padding: 12px;
-    border-radius: 10px;
-    font-weight: bold;
-    font-size: 14px;
-    text-decoration: none;
-    color: #fff;
-    background: linear-gradient(90deg, #0088cc, #00ffff);
-    box-shadow: 0 0 12px #0088cc, 0 0 20px #00ffff;
-    transition: 0.3s;
-  }
-
-  .telegram-btn:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 20px #0088cc, 0 0 35px #00ffff;
-  }
-
-  .telegram-btn svg {
-    width: 18px;
-    height: 18px;
-  }
-
-  @media (max-width: 480px) {
-    .banner {
-      height: 50px;
-      font-size: 22px;
-    }
-    .container {
-      padding: 20px;
-    }
-    input, button {
-      padding: 10px;
-      font-size: 14px;
-    }
-    h2 {
-      font-size: 20px;
-    }
-  }
-
-  /* 🔥 FONDO GRID */
-.background-grid {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -1;
-
-  background-color: #0a0a0f;
-  background-image:
-    linear-gradient(rgba(0,255,255,0.08) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0,255,255,0.08) 1px, transparent 1px);
-  background-size: 40px 40px;
-    animation: gridMove 20s linear infinite;
-  @keyframes gridMove {
-  0% {
-    background-position: 0 0, 0 0;
-  }
-  100% {
-    background-position: 40px 40px, 40px 40px;
-  }
-}
-}
-
-/* 🔥 GLOW */
-.background-grid::before {
-  content: "";
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background: radial-gradient(circle, rgba(0,255,255,0.15), transparent 70%);
-  animation: glowMove 10s linear infinite;
-}
-
-@keyframes glowMove {
-  0% { transform: translate(0,0); }
-  50% { transform: translate(40px,40px); }
-  100% { transform: translate(0,0); }
-}
-
-/* 🔥 ASEGURA QUE EL CONTENIDO ESTE ENCIMA */
-.container {
-  position: relative;
-  z-index: 1;
-}
-
-.particles {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: -1;
-}
-
-.particles::before {
-  content: "";
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background-image: radial-gradient(rgba(0,255,255,0.4) 1px, transparent 1px);
-  background-size: 80px 80px;
-  animation: particlesMove 25s linear infinite;
-  opacity: 0.3;
-}
-
-@keyframes particlesMove {
-  0% { transform: translateY(0); }
-  100% { transform: translateY(-100px); }
-}
-
-#pantallaMantenimiento{
+/* ===== FONDO ===== */
+.background{
 position:fixed;
-top:0;
-left:0;
 width:100%;
 height:100%;
-
+z-index:-1;
 background:
 radial-gradient(circle at 20% 20%, #00ffff22, transparent 40%),
 radial-gradient(circle at 80% 80%, #ff00ff22, transparent 40%),
 #050507;
+}
+
+.logo{
+width:100px;
+height:100px;
+margin:auto;
+border-radius:22px;
+
+background:linear-gradient(135deg,#00ffff,#00ff88);
 
 display:flex;
 align-items:center;
 justify-content:center;
 
-z-index:9999;
-font-family:'Orbitron',sans-serif;
-}
-
-.mantenimiento-box{
-padding:50px;
-border-radius:25px;
-background:linear-gradient(145deg,#06060f,#0b0b12);
-
-box-shadow:
-0 0 40px #00ffff55,
-0 0 80px #ff00ff33,
-inset 0 0 30px #00ffff22;
-
-text-align:center;
-max-width:400px;
-}
-
-.mantenimiento-box h1{
 font-size:38px;
 font-weight:900;
-color:#00ffff;
+letter-spacing:2px;
+
+color:#000;
+
+box-shadow:
+0 0 35px #00ffff,
+0 0 80px #00ff88,
+inset 0 0 20px #ffffff55;
+
+animation:logoPulse 2s infinite alternate;
+}
+
+.logo::after{
+content:"";
+position:absolute;
+width:120%;
+height:120%;
+border-radius:25px;
+border:2px solid #00ffff33;
+animation:pulseBorder 2s infinite;
+}
+
+@keyframes pulseBorder{
+0%{transform:scale(1);opacity:0.6;}
+100%{transform:scale(1.15);opacity:0;}
+}
+
+/* HEADER */
+.header{
+text-align:center;
+padding:60px 20px 20px;
+}
+
+.header h1{
+font-size:52px;
+margin:20px 0 10px;
+font-weight:900;
+letter-spacing:2px;
+
+background:linear-gradient(90deg,#00ffff,#00ff88);
+-webkit-background-clip:text;
+color:transparent;
+
 text-shadow:
 0 0 20px #00ffff,
 0 0 40px #00ff88;
 }
 
-.mantenimiento-box p{
+.header p{
 color:#aaa;
-margin-top:10px;
 }
+
+.admin{
+margin-top:15px;
+display:inline-block;
+padding:10px 20px;
+border-radius:25px;
+
+background:rgba(255,255,255,0.05);
+border:1px solid #00ffff33;
+}
+
+/* ===== GRID ===== */
+.grid{
+max-width:1200px;
+margin:40px auto;
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:30px;
+padding:0 20px;
+}
+
+/* 📱 TABLET */
+@media(max-width:900px){
+.grid{
+grid-template-columns:repeat(2,1fr);
+gap:20px;
+}
+}
+
+/* 📱 TELÉFONO PEQUEÑO */
+@media(max-width:500px){
+.grid{
+grid-template-columns:repeat(2,1fr);
+gap:15px;
+padding:0 10px;
+}
+}
+
+@media(max-width:500px){
+.card{
+padding:20px;
+}
+
+.card h2{
+font-size:16px;
+}
+
+.card p{
+font-size:12px;
+}
+}
+
+/* ===== CARD GAMER ===== */
+.card{
+background:linear-gradient(145deg,#06060f,#0b0b12);
+border-radius:22px;
+padding:30px;
+position:relative;
+overflow:hidden;
+
+cursor:pointer;
+
+border:1px solid rgba(0,255,255,0.08);
+
+box-shadow:
+0 0 10px #000,
+inset 0 0 20px #00ffff11;
+
+transition:.4s cubic-bezier(.2,.8,.2,1);
+}
+
+/* LUZ ANIMADA */
+.card::before{
+content:"";
+position:absolute;
+top:-50%;
+left:-50%;
+width:200%;
+height:200%;
+
+background:conic-gradient(
+transparent,
+#00ffff,
+transparent,
+#ff00ff,
+transparent
+);
+
+animation:rotate 6s linear infinite;
+opacity:0.12;
+}
+
+@keyframes rotate{
+0%{transform:rotate(0deg);}
+100%{transform:rotate(360deg);}
+}
+
+/* BRILLO QUE PASA */
+.card::after{
+content:"";
+position:absolute;
+top:0;
+left:-100%;
+width:100%;
+height:100%;
+background:linear-gradient(120deg,transparent,#ffffff22,transparent);
+transition:.6s;
+}
+
+.card:hover::after{
+left:100%;
+}
+
+/* HOVER */
+.card:hover{
+transform:translateY(-12px) scale(1.06);
+
+box-shadow:
+0 0 25px #00ffff66,
+0 0 80px #ff00ff44,
+inset 0 0 30px #00ffff22;
+}
+
+/* CLICK EFECTO */
+.card:active{
+transform:scale(0.97);
+}
+
+/* ICONO */
+.icon-box{
+width:70px;
+height:70px;
+border-radius:20px;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:30px;
+margin-bottom:15px;
+
+box-shadow:
+0 0 20px #000,
+0 0 25px #00ffff33;
+
+transition:.4s;
+}
+
+.card:hover .icon-box{
+transform:scale(1.15) rotate(6deg);
+box-shadow:
+0 0 25px #00ffff,
+0 0 40px #ff00ff;
+}
+
+/* COLORES */
+.red{background:linear-gradient(135deg,#ff3b3b,#ff6b6b);}
+.blue{background:linear-gradient(135deg,#00ffff,#00aaff);}
+.green{background:linear-gradient(135deg,#00ff9c,#00cc88);}
+.purple{background:linear-gradient(135deg,#a855f7,#ec4899);}
+
+/* TEXTO */
+.card h2{
+font-size:22px;
+margin:10px 0;
+font-weight:800;
+letter-spacing:1px;
+
+color:#00ffff;
+
+text-shadow:
+0 0 10px #00ffff,
+0 0 20px #00ff88;
+}
+
+.card p{
+font-size:15px;
+font-weight:600;
+color:#cbd5f5;
+line-height:1.6;
+letter-spacing:0.5px;
+
+text-shadow:0 0 10px #00ffff22;
+}
+
+/* BOTON */
+.arrow{
+position:absolute;
+right:20px;
+bottom:20px;
+width:40px;
+height:40px;
+border-radius:50%;
+background:#111;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:16px;
+
+transition:.3s;
+}
+
+.card:hover .arrow{
+background:#00ffff;
+color:#000;
+box-shadow:0 0 15px #00ffff;
+}
+
+.card::after{
+content:"";
+position:absolute;
+inset:0;
+border-radius:22px;
+padding:1px;
+
+background:linear-gradient(120deg,#00ffff,transparent,#ff00ff);
+
+-webkit-mask:
+linear-gradient(#000 0 0) content-box,
+linear-gradient(#000 0 0);
+
+-webkit-mask-composite:xor;
+mask-composite:exclude;
+
+opacity:0.25;
+}
+/* ===== PANEL ===== */
+.panel{
+max-width:900px;
+margin:30px auto;
+padding:20px;
+display:none;
+}
+
+input{
+width:100%;
+padding:12px;
+margin:8px 0;
+border:none;
+border-radius:10px;
+background:#020617;
+color:#fff;
+}
+
+button{
+width:100%;
+padding:10px;
+border:none;
+border-radius:10px;
+margin-top:10px;
+background:linear-gradient(90deg,#00ffff,#00ff9c);
+cursor:pointer;
+font-weight:bold;
+}
+
+.pedido{
+background:#111;
+padding:15px;
+margin-bottom:10px;
+border-radius:10px;
+}
+
+.estado{
+padding:5px 10px;
+border-radius:10px;
+font-size:12px;
+}
+
+.pendiente{background:orange;color:#000;}
+.aprobado{background:#00ff9c;color:#000;}
+.rechazado{background:red;color:#fff;}
+
+@media(max-width:900px){
+.grid{
+grid-template-columns:repeat(2,1fr);
+}
+}
+
 </style>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
 </head>
+
 <body>
 
-  
+<div class="background"></div>
+
+<!-- HEADER -->
+<div class="header">
+
+<div class="logo">PH</div>
+
+<h1>Panel de Administración</h1>
+<p>Gestiona tu tienda desde un solo lugar</p>
+
+<div class="admin">
+🛡️ Administrador: recuperacionzeta@gmail.com
+</div>
 
 </div>
 
-  <div id="pantallaMantenimiento" style="display:none;"></div>
+<!-- CARDS -->
+<div class="grid">
 
-  <div id="mantenimientoScreen"></div>
-
-<div class="background-grid"></div>
-<div class="particles"></div>
-
-<div class="banner">Piero Hacks</div>
-
-<div class="container">
-  <h2>Iniciar Sesión</h2>
-  <form id="loginForm">
-    <label>Correo Electrónico</label>
-    <input type="email" id="email" placeholder="tu@email.com" required>
-
-    <label>Contraseña</label>
-  <div style="position: relative;">
-  <input type="password" id="password" placeholder="Tu contraseña">
-
-  <i class="fas fa-eye" id="togglePassword"
-     style="position:absolute; right:10px; top:50%; transform:translateY(-50%);
-     cursor:pointer; color:#aaa;"></i>
+    <div class="card" onclick="window.location.href='mantenimiento.html'">
+<div class="icon-box green">⚠️</div>
+<h2>PAGINA WEB EN MANTENIMIENTO</h2>
+<p>FUNCIONES: </P>
+<p>Dar el permiso de pausar la web y ponerla en mantenimiento mientras se hace los cambios </p>
+<div class="arrow">→</div>
 </div>
 
-    <button type="submit">Iniciar Sesión</button>
-    <p id="errorMsg" class="message"></p>
-  </form>
+    <div class="card">
+<div class="icon-box green">💰</div>
+<h2>TOTAL GANADO EN USD</h2>
+<p>FUNCIONES: </P>
+<p>Mira el totl de tus ganancias en todo este tiempo con tu web</p>
+<div class="arrow">→</div>
+</div>
 
-  <div class="link">
-    ¿No tienes cuenta? <a href="register.html">Crea tu cuenta aquí</a>
-  </div>
+<div class="card" onclick="mostrar('comprobantes')">
+<div class="icon-box red">📦</div>
+<h2>COMPROBANTES</h2>
+<p>FUNCIONES: </P>
+<p>Gestiona los comporbantes en:
+    Rechasarlos o aprovarlos los comprobantes.</p>
+<div class="arrow">→</div>
+</div>
 
-  <!-- 🔥 BOTÓN TELEGRAM 🔥 -->
-  <div class="owner-contact">
-    <a href="https://t.me/ZetaOwner" target="_blank" class="telegram-btn">
-      <svg viewBox="0 0 24 24" fill="white">
-        <path d="M9.04 15.47l-.39 5.46c.56 0 .8-.24 1.1-.53l2.64-2.53 5.48 4.01c1 .55 1.72.26 1.97-.92l3.57-16.74.01-.01c.3-1.4-.5-1.95-1.47-1.59L1.56 9.07c-1.37.53-1.35 1.29-.23 1.63l4.7 1.47 10.9-6.87c.51-.31.98-.14.6.17"/>
-      </svg>
-      Comunícate con el dueño
-    </a>
-  </div>
+<div class="card">
+<div class="icon-box purple">🔄</div>
+<h2>SOLICITUDES DE REMBOLSO</h2>
+<p>FUNCIONES: </P>
+<p>Aprueba y rechaza las solitudes de rembolso que habran</p>
+<div class="arrow">→</div>
+</div>
+
+<div class="card" onclick="mostrar('productos')">
+<div class="icon-box blue">🛒</div>
+<h2>AGREGAR PRODUCTOS</h2>
+<p>FUNCIONES: </P>
+<p>Agrega productos con el precio a tu tienda store</p>
+<div class="arrow">→</div>
+</div>
+
+<div class="card">
+<div class="icon-box green">👤</div>
+<h2>USUARIOS DE LA WEB</h2>
+<p>FUNCIONES: </P>
+<P>Ve la informacion de los usuarios: pais,numero,correo,activo en tu tienda store</P>
+<div class="arrow">→</div>
+</div>
+
+<div class="card">
+<div class="icon-box green">✖️</div>
+<h2>ELIMINAR PRODUCCTOS</h2>
+<p>FUNCIONES: </P>
+<p>elimina tus productos de tu tienda store</p>
+<div class="arrow">→</div>
+</div>
+
+<div class="card">
+<div class="icon-box green">⚠️</div>
+<h2>PERMISOS DE ADMIN</h2>
+<p>FUNCIONES: </P>
+<p>Dar el permiso de admin, prende los botones que quieres que tenga acceso</p>
+<div class="arrow">→</div>
+</div>
 
 </div>
-<script>
-const togglePassword = document.getElementById("togglePassword");
-const password = document.getElementById("password");
 
-togglePassword.addEventListener("click", () => {
-  const type = password.type === "password" ? "text" : "password";
-  password.type = type;
+<!-- PANEL PRODUCTOS -->
+<div id="productos" class="panel">
+<h2>🛒 Gestión de Productos</h2>
 
-  togglePassword.classList.toggle("fa-eye");
-  togglePassword.classList.toggle("fa-eye-slash");
-});
-</script>
+<input id="nombreProd" placeholder="Nombre">
+<input id="precioProd" type="number" placeholder="Precio">
 
+<button onclick="agregarProducto()">Agregar</button>
+</div>
+
+<!-- PANEL PEDIDOS -->
+<div id="pedidos" class="panel">
+<h2>📦 Pedidos</h2>
+<div id="listaPedidos"></div>
+</div>
 
 <script type="module">
 
 import { db } from "./firebase.js";
-import { doc, onSnapshot } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+import {
+collection,
+getDocs,
+addDoc,
+updateDoc,
+doc,
+increment
+} from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
 
-console.log("🔥 FIREBASE CONECTADO");
+window.mostrar = (id)=>{
+document.querySelectorAll(".panel").forEach(p=>p.style.display="none");
+document.getElementById(id).style.display="block";
+};
 
-const loader = document.getElementById("loaderMantenimiento");
+window.agregarProducto = async ()=>{
+const nombre = document.getElementById("nombreProd").value;
+const precio = Number(document.getElementById("precioProd").value);
 
-// 🔥 TU DISEÑO PRO
-function mostrarMantenimiento() {
-  document.body.innerHTML = `
-  <div style="
-  position:fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-family:Orbitron, sans-serif;
-  background:#050507;
-  overflow:hidden;
-  ">
+if(!nombre || !precio) return alert("Completa datos");
 
-    <!-- FONDO GLOW -->
-    <div style="
-    position:absolute;
-    width:100%;
-    height:100%;
-    background:
-    radial-gradient(circle at 20% 20%, #00ff8822, transparent 40%),
-    radial-gradient(circle at 80% 80%, #00ffff22, transparent 40%);
-    "></div>
-
-    <!-- CAJA PRO -->
-    <div style="
-    position:relative;
-    padding:50px 40px;
-    border-radius:20px;
-    text-align:center;
-    max-width:400px;
-    width:90%;
-    z-index:2;
-
-    background:rgba(10,10,20,0.95);
-    border:1px solid #00ff88;
-
-    box-shadow:
-    0 0 20px #00ff88,
-    0 0 60px #00ff8844,
-    inset 0 0 15px #00ff8822;
-    ">
-
-      <!-- ICONO -->
-      <div style="
-      font-size:60px;
-      margin-bottom:15px;
-      text-shadow:0 0 15px #00ff88;
-      ">
-      🛠️
-      </div>
-
-      <!-- TITULO -->
-      <h1 style="
-      font-size:26px;
-      font-weight:900;
-      margin:0;
-      color:#00ff88;
-      text-shadow:0 0 15px #00ff88;
-      ">
-      ESTAMOS EN MANTENIMIENTO
-      </h1>
-
-      <!-- TEXTO -->
-      <p style="
-      margin-top:12px;
-      color:#aaa;
-      font-size:14px;
-      ">
-      Estamos mejorando el sistema para ti 🚀
-      </p>
-
-      <!-- LINEA -->
-      <div style="
-      margin-top:20px;
-      height:2px;
-      width:100%;
-      background:linear-gradient(90deg, transparent, #00ff88, transparent);
-      box-shadow:0 0 10px #00ff88;
-      "></div>
-
-      <!-- TEXTO WHATS -->
-      <p style="
-      margin-top:15px;
-      font-size:12px;
-      color:#00ff88;
-      letter-spacing:1px;
-      ">
-      ● ÚNETE AL GRUPO PARA AVISOS
-      </p>
-
-      <!-- BOTÓN WHATSAPP -->
-      <a href="https://chat.whatsapp.com/TU-LINK-AQUI" target="_blank" style="
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      gap:10px;
-      margin-top:20px;
-      padding:14px;
-      border-radius:12px;
-      text-decoration:none;
-      font-weight:bold;
-      font-size:14px;
-      color:white;
-
-      background:linear-gradient(90deg,#00ff88,#25D366);
-      box-shadow:0 0 15px #25D366, 0 0 30px #00ff88;
-
-      transition:0.3s;
-      " onmouseover="this.style.transform='scale(1.05)'" 
-         onmouseout="this.style.transform='scale(1)'">
-
-        📲 GRUPO DE WHATSAPP
-
-      </a>
-
-    </div>
-
-  </div>
-  `;
-}
-
-// 🚀 1. RESPUESTA INSTANTÁNEA (SIN ESPERAR FIREBASE)
-const estadoLocal = localStorage.getItem("mantenimiento");
-
-if (estadoLocal === "true") {
-  mostrarMantenimiento();
-} else {
-  if(loader) loader.style.display = "none";
-}
-
-// 🚀 2. FIREBASE ACTUALIZA EN SEGUNDO PLANO
-const ref = doc(db, "config", "web");
-
-onSnapshot(ref, (snap) => {
-
-  if (!snap.exists()) return;
-
-  const data = snap.data();
-
-  console.log("📡 Estado mantenimiento:", data.mantenimiento);
-
-  // 🔥 guardar estado
-  localStorage.setItem("mantenimiento", data.mantenimiento);
-
-  // 🔥 ocultar loader SIEMPRE
-  if(loader) loader.style.display = "none";
-
-  // 🔥 aplicar estado real
-  if (data.mantenimiento === true) {
-    mostrarMantenimiento();
-  }
-
+await addDoc(collection(db,"productos"),{
+nombre,
+precio
 });
 
+alert("Producto agregado 🚀");
+};
+
+async function cargarPedidos(){
+const lista = document.getElementById("listaPedidos");
+lista.innerHTML="";
+
+const snap = await getDocs(collection(db,"pedidos"));
+
+snap.forEach(d=>{
+const data = d.data();
+
+const div = document.createElement("div");
+div.className="pedido";
+
+div.innerHTML=`
+<div>${data.producto} - $${data.precio}</div>
+<div class="estado ${data.estado}">${data.estado}</div>
+
+<button onclick="aprobar('${d.id}','${data.userId}',${data.precio})">Aprobar</button>
+<button onclick="rechazar('${d.id}')">Rechazar</button>
+`;
+
+lista.appendChild(div);
+});
+}
+
+window.aprobar = async (id,userId,precio)=>{
+await updateDoc(doc(db,"pedidos",id),{estado:"aprobado"});
+await updateDoc(doc(db,"usuarios",userId),{
+totalGastado:increment(precio)
+});
+alert("Aprobado 💸");
+cargarPedidos();
+};
+
+window.rechazar = async (id)=>{
+await updateDoc(doc(db,"pedidos",id),{estado:"rechazado"});
+alert("Rechazado ❌");
+cargarPedidos();
+};
+
+cargarPedidos();
+
 </script>
+
 </body>
+</html>
