@@ -1,0 +1,526 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZETA ADMIN GOD</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+
+<style>
+
+body{
+margin:0;
+font-family:'Orbitron',sans-serif;
+background:#050507;
+color:#fff;
+overflow-x:hidden;
+}
+
+/* ===== FONDO ===== */
+.background{
+position:fixed;
+width:100%;
+height:100%;
+z-index:-1;
+background:
+radial-gradient(circle at 20% 20%, #00ffff22, transparent 40%),
+radial-gradient(circle at 80% 80%, #ff00ff22, transparent 40%),
+#050507;
+}
+
+.logo{
+width:100px;
+height:100px;
+margin:auto;
+border-radius:22px;
+
+background:linear-gradient(135deg,#00ffff,#00ff88);
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+font-size:38px;
+font-weight:900;
+letter-spacing:2px;
+
+color:#000;
+
+box-shadow:
+0 0 35px #00ffff,
+0 0 80px #00ff88,
+inset 0 0 20px #ffffff55;
+
+animation:logoPulse 2s infinite alternate;
+}
+
+.logo::after{
+content:"";
+position:absolute;
+width:120%;
+height:120%;
+border-radius:25px;
+border:2px solid #00ffff33;
+animation:pulseBorder 2s infinite;
+}
+
+@keyframes pulseBorder{
+0%{transform:scale(1);opacity:0.6;}
+100%{transform:scale(1.15);opacity:0;}
+}
+
+/* HEADER */
+.header{
+text-align:center;
+padding:60px 20px 20px;
+}
+
+.header h1{
+font-size:52px;
+margin:20px 0 10px;
+font-weight:900;
+letter-spacing:2px;
+
+background:linear-gradient(90deg,#00ffff,#00ff88);
+-webkit-background-clip:text;
+color:transparent;
+
+text-shadow:
+0 0 20px #00ffff,
+0 0 40px #00ff88;
+}
+
+.header p{
+color:#aaa;
+}
+
+.admin{
+margin-top:15px;
+display:inline-block;
+padding:10px 20px;
+border-radius:25px;
+
+background:rgba(255,255,255,0.05);
+border:1px solid #00ffff33;
+}
+
+/* ===== GRID ===== */
+.grid{
+max-width:1200px;
+margin:40px auto;
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:30px;
+padding:0 20px;
+}
+
+/* ===== CARD GAMER ===== */
+.card{
+background:linear-gradient(145deg,#06060f,#0b0b12);
+border-radius:22px;
+padding:30px;
+position:relative;
+overflow:hidden;
+
+cursor:pointer;
+
+border:1px solid rgba(0,255,255,0.08);
+
+box-shadow:
+0 0 10px #000,
+inset 0 0 20px #00ffff11;
+
+transition:.4s cubic-bezier(.2,.8,.2,1);
+}
+
+/* LUZ ANIMADA */
+.card::before{
+content:"";
+position:absolute;
+top:-50%;
+left:-50%;
+width:200%;
+height:200%;
+
+background:conic-gradient(
+transparent,
+#00ffff,
+transparent,
+#ff00ff,
+transparent
+);
+
+animation:rotate 6s linear infinite;
+opacity:0.12;
+}
+
+@keyframes rotate{
+0%{transform:rotate(0deg);}
+100%{transform:rotate(360deg);}
+}
+
+/* BRILLO QUE PASA */
+.card::after{
+content:"";
+position:absolute;
+top:0;
+left:-100%;
+width:100%;
+height:100%;
+background:linear-gradient(120deg,transparent,#ffffff22,transparent);
+transition:.6s;
+}
+
+.card:hover::after{
+left:100%;
+}
+
+/* HOVER */
+.card:hover{
+transform:translateY(-12px) scale(1.06);
+
+box-shadow:
+0 0 25px #00ffff66,
+0 0 80px #ff00ff44,
+inset 0 0 30px #00ffff22;
+}
+
+/* CLICK EFECTO */
+.card:active{
+transform:scale(0.97);
+}
+
+/* ICONO */
+.icon-box{
+width:70px;
+height:70px;
+border-radius:20px;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:30px;
+margin-bottom:15px;
+
+box-shadow:
+0 0 20px #000,
+0 0 25px #00ffff33;
+
+transition:.4s;
+}
+
+.card:hover .icon-box{
+transform:scale(1.15) rotate(6deg);
+box-shadow:
+0 0 25px #00ffff,
+0 0 40px #ff00ff;
+}
+
+/* COLORES */
+.red{background:linear-gradient(135deg,#ff3b3b,#ff6b6b);}
+.blue{background:linear-gradient(135deg,#00ffff,#00aaff);}
+.green{background:linear-gradient(135deg,#00ff9c,#00cc88);}
+.purple{background:linear-gradient(135deg,#a855f7,#ec4899);}
+
+/* TEXTO */
+.card h2{
+font-size:22px;
+margin:10px 0;
+font-weight:800;
+letter-spacing:1px;
+
+color:#00ffff;
+
+text-shadow:
+0 0 10px #00ffff,
+0 0 20px #00ff88;
+}
+
+.card p{
+font-size:15px;
+font-weight:600;
+color:#cbd5f5;
+line-height:1.6;
+letter-spacing:0.5px;
+
+text-shadow:0 0 10px #00ffff22;
+}
+
+/* BOTON */
+.arrow{
+position:absolute;
+right:20px;
+bottom:20px;
+width:40px;
+height:40px;
+border-radius:50%;
+background:#111;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:16px;
+
+transition:.3s;
+}
+
+.card:hover .arrow{
+background:#00ffff;
+color:#000;
+box-shadow:0 0 15px #00ffff;
+}
+
+.card::after{
+content:"";
+position:absolute;
+inset:0;
+border-radius:22px;
+padding:1px;
+
+background:linear-gradient(120deg,#00ffff,transparent,#ff00ff);
+
+-webkit-mask:
+linear-gradient(#000 0 0) content-box,
+linear-gradient(#000 0 0);
+
+-webkit-mask-composite:xor;
+mask-composite:exclude;
+
+opacity:0.25;
+}
+/* ===== PANEL ===== */
+.panel{
+max-width:900px;
+margin:30px auto;
+padding:20px;
+display:none;
+}
+
+input{
+width:100%;
+padding:12px;
+margin:8px 0;
+border:none;
+border-radius:10px;
+background:#020617;
+color:#fff;
+}
+
+button{
+width:100%;
+padding:10px;
+border:none;
+border-radius:10px;
+margin-top:10px;
+background:linear-gradient(90deg,#00ffff,#00ff9c);
+cursor:pointer;
+font-weight:bold;
+}
+
+.pedido{
+background:#111;
+padding:15px;
+margin-bottom:10px;
+border-radius:10px;
+}
+
+.estado{
+padding:5px 10px;
+border-radius:10px;
+font-size:12px;
+}
+
+.pendiente{background:orange;color:#000;}
+.aprobado{background:#00ff9c;color:#000;}
+.rechazado{background:red;color:#fff;}
+
+@media(max-width:900px){
+.grid{
+grid-template-columns:repeat(2,1fr);
+}
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="background"></div>
+
+<!-- HEADER -->
+<div class="header">
+
+<div class="logo">PH</div>
+
+<h1>Panel de Administración</h1>
+<p>Gestiona tu tienda desde un solo lugar</p>
+
+<div class="admin">
+🛡️ Administrador: recuperacionzeta@gmail.com
+</div>
+
+</div>
+
+<!-- CARDS -->
+<div class="grid">
+
+    <div class="card" onclick="window.location.href='mantenimiento.html'">
+<div class="icon-box green">⚠️</div>
+<h2>PAGINA WEB EN MANTENIMIENTO</h2>
+<p>FUNCIONES: </P>
+<p>Dar el permiso de pausar la web y ponerla en mantenimiento mientras se hace los cambios </p>
+<div class="arrow">→</div>
+</div>
+
+    <div class="card">
+<div class="icon-box green">💰</div>
+<h2>TOTAL GANADO EN USD</h2>
+<p>FUNCIONES: </P>
+<p>Mira el totl de tus ganancias en todo este tiempo con tu web</p>
+<div class="arrow">→</div>
+</div>
+
+<div class="card" onclick="mostrar('comprobantes')">
+<div class="icon-box red">📦</div>
+<h2>COMPROBANTES</h2>
+<p>FUNCIONES: </P>
+<p>Gestiona los comporbantes en:
+    Rechasarlos o aprovarlos los comprobantes.</p>
+<div class="arrow">→</div>
+</div>
+
+<div class="card">
+<div class="icon-box purple">🔄</div>
+<h2>SOLICITUDES DE REMBOLSO</h2>
+<p>FUNCIONES: </P>
+<p>Aprueba y rechaza las solitudes de rembolso que habran</p>
+<div class="arrow">→</div>
+</div>
+
+<div class="card" onclick="mostrar('productos')">
+<div class="icon-box blue">🛒</div>
+<h2>AGREGAR PRODUCTOS</h2>
+<p>FUNCIONES: </P>
+<p>Agrega productos con el precio a tu tienda store</p>
+<div class="arrow">→</div>
+</div>
+
+<div class="card">
+<div class="icon-box green">👤</div>
+<h2>USUARIOS DE LA WEB</h2>
+<p>FUNCIONES: </P>
+<P>Ve la informacion de los usuarios: pais,numero,correo,activo en tu tienda store</P>
+<div class="arrow">→</div>
+</div>
+
+<div class="card">
+<div class="icon-box green">✖️</div>
+<h2>ELIMINAR PRODUCCTOS</h2>
+<p>FUNCIONES: </P>
+<p>elimina tus productos de tu tienda store</p>
+<div class="arrow">→</div>
+</div>
+
+<div class="card">
+<div class="icon-box green">⚠️</div>
+<h2>PERMISOS DE ADMIN</h2>
+<p>FUNCIONES: </P>
+<p>Dar el permiso de admin, prende los botones que quieres que tenga acceso</p>
+<div class="arrow">→</div>
+</div>
+
+</div>
+
+<!-- PANEL PRODUCTOS -->
+<div id="productos" class="panel">
+<h2>🛒 Gestión de Productos</h2>
+
+<input id="nombreProd" placeholder="Nombre">
+<input id="precioProd" type="number" placeholder="Precio">
+
+<button onclick="agregarProducto()">Agregar</button>
+</div>
+
+<!-- PANEL PEDIDOS -->
+<div id="pedidos" class="panel">
+<h2>📦 Pedidos</h2>
+<div id="listaPedidos"></div>
+</div>
+
+<script type="module">
+
+import { db } from "./firebase.js";
+import {
+collection,
+getDocs,
+addDoc,
+updateDoc,
+doc,
+increment
+} from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+
+window.mostrar = (id)=>{
+document.querySelectorAll(".panel").forEach(p=>p.style.display="none");
+document.getElementById(id).style.display="block";
+};
+
+window.agregarProducto = async ()=>{
+const nombre = document.getElementById("nombreProd").value;
+const precio = Number(document.getElementById("precioProd").value);
+
+if(!nombre || !precio) return alert("Completa datos");
+
+await addDoc(collection(db,"productos"),{
+nombre,
+precio
+});
+
+alert("Producto agregado 🚀");
+};
+
+async function cargarPedidos(){
+const lista = document.getElementById("listaPedidos");
+lista.innerHTML="";
+
+const snap = await getDocs(collection(db,"pedidos"));
+
+snap.forEach(d=>{
+const data = d.data();
+
+const div = document.createElement("div");
+div.className="pedido";
+
+div.innerHTML=`
+<div>${data.producto} - $${data.precio}</div>
+<div class="estado ${data.estado}">${data.estado}</div>
+
+<button onclick="aprobar('${d.id}','${data.userId}',${data.precio})">Aprobar</button>
+<button onclick="rechazar('${d.id}')">Rechazar</button>
+`;
+
+lista.appendChild(div);
+});
+}
+
+window.aprobar = async (id,userId,precio)=>{
+await updateDoc(doc(db,"pedidos",id),{estado:"aprobado"});
+await updateDoc(doc(db,"usuarios",userId),{
+totalGastado:increment(precio)
+});
+alert("Aprobado 💸");
+cargarPedidos();
+};
+
+window.rechazar = async (id)=>{
+await updateDoc(doc(db,"pedidos",id),{estado:"rechazado"});
+alert("Rechazado ❌");
+cargarPedidos();
+};
+
+cargarPedidos();
+
+</script>
+
+</body>
+</html>
+  
