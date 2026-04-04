@@ -339,82 +339,9 @@ margin-top:10px;
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-<script>
-if(localStorage.getItem("mantenimiento") === "true"){
-  document.write(`
-  <div style="
-  position:fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-family:Orbitron, sans-serif;
-  background:#050507;
-  overflow:hidden;
-  ">
 
-    <div style="
-    position:absolute;
-    width:100%;
-    height:100%;
-    background:
-    radial-gradient(circle at 30% 30%, #00ff8822, transparent 40%),
-    radial-gradient(circle at 70% 70%, #00ffff22, transparent 40%);
-    "></div>
+  
 
-    <div style="
-    position:relative;
-    padding:60px 45px;
-    border-radius:20px;
-    text-align:center;
-    max-width:420px;
-    width:90%;
-    z-index:2;
-    background:rgba(10,10,20,0.95);
-    border:1px solid #00ff88;
-    box-shadow:
-    0 0 20px #00ff88,
-    0 0 60px #00ff8844,
-    inset 0 0 15px #00ff8822;
-    ">
-
-      <div style="font-size:60px;">🛠️</div>
-
-      <h1 style="color:#00ff88;">
-      ESTAMOS EN MANTENIMIENTO
-      </h1>
-
-      <p style="color:#aaa;">
-      Actualizando sistema...
-      </p>
-
-    </div>
-
-  </div>
-  `);
-
-  throw new Error("STOP"); // 💀 bloquea todo
-}
-</script>
-
-  <div id="loaderMantenimiento" style="
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:#050507;
-z-index:99999;
-display:flex;
-align-items:center;
-justify-content:center;
-font-family:Orbitron;
-color:#00ff88;
-">
-Cargando sistema...
 </div>
 
   <div id="pantallaMantenimiento" style="display:none;"></div>
@@ -481,10 +408,9 @@ import { doc, onSnapshot } from "https://www.gstatic.com/firebasejs/9.22.1/fireb
 
 console.log("🔥 FIREBASE CONECTADO");
 
-// 🔥 ELEMENTOS
 const loader = document.getElementById("loaderMantenimiento");
 
-// 🔥 FUNCION MANTENIMIENTO (TU DISEÑO PRO)
+// 🔥 TU DISEÑO PRO
 function mostrarMantenimiento() {
   document.body.innerHTML = `
   <div style="
@@ -501,21 +427,23 @@ function mostrarMantenimiento() {
   overflow:hidden;
   ">
 
+    <!-- FONDO GLOW -->
     <div style="
     position:absolute;
     width:100%;
     height:100%;
     background:
-    radial-gradient(circle at 30% 30%, #00ff8822, transparent 40%),
-    radial-gradient(circle at 70% 70%, #00ffff22, transparent 40%);
+    radial-gradient(circle at 20% 20%, #00ff8822, transparent 40%),
+    radial-gradient(circle at 80% 80%, #00ffff22, transparent 40%);
     "></div>
 
+    <!-- CAJA PRO -->
     <div style="
     position:relative;
-    padding:60px 45px;
+    padding:50px 40px;
     border-radius:20px;
     text-align:center;
-    max-width:420px;
+    max-width:400px;
     width:90%;
     z-index:2;
 
@@ -528,19 +456,78 @@ function mostrarMantenimiento() {
     inset 0 0 15px #00ff8822;
     ">
 
-      <div style="font-size:60px;">🛠️</div>
+      <!-- ICONO -->
+      <div style="
+      font-size:60px;
+      margin-bottom:15px;
+      text-shadow:0 0 15px #00ff88;
+      ">
+      🛠️
+      </div>
 
+      <!-- TITULO -->
       <h1 style="
-      font-size:28px;
+      font-size:26px;
       font-weight:900;
+      margin:0;
       color:#00ff88;
+      text-shadow:0 0 15px #00ff88;
       ">
       ESTAMOS EN MANTENIMIENTO
       </h1>
 
-      <p style="color:#aaa;">
-      Actualizando sistema...
+      <!-- TEXTO -->
+      <p style="
+      margin-top:12px;
+      color:#aaa;
+      font-size:14px;
+      ">
+      Estamos mejorando el sistema para ti 🚀
       </p>
+
+      <!-- LINEA -->
+      <div style="
+      margin-top:20px;
+      height:2px;
+      width:100%;
+      background:linear-gradient(90deg, transparent, #00ff88, transparent);
+      box-shadow:0 0 10px #00ff88;
+      "></div>
+
+      <!-- TEXTO WHATS -->
+      <p style="
+      margin-top:15px;
+      font-size:12px;
+      color:#00ff88;
+      letter-spacing:1px;
+      ">
+      ● ÚNETE AL GRUPO PARA AVISOS
+      </p>
+
+      <!-- BOTÓN WHATSAPP -->
+      <a href="https://chat.whatsapp.com/TU-LINK-AQUI" target="_blank" style="
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      margin-top:20px;
+      padding:14px;
+      border-radius:12px;
+      text-decoration:none;
+      font-weight:bold;
+      font-size:14px;
+      color:white;
+
+      background:linear-gradient(90deg,#00ff88,#25D366);
+      box-shadow:0 0 15px #25D366, 0 0 30px #00ff88;
+
+      transition:0.3s;
+      " onmouseover="this.style.transform='scale(1.05)'" 
+         onmouseout="this.style.transform='scale(1)'">
+
+        📲 GRUPO DE WHATSAPP
+
+      </a>
 
     </div>
 
@@ -548,30 +535,38 @@ function mostrarMantenimiento() {
   `;
 }
 
-// 🔥 REFERENCIA FIREBASE
-const ref = doc(db,"config","web");
+// 🚀 1. RESPUESTA INSTANTÁNEA (SIN ESPERAR FIREBASE)
+const estadoLocal = localStorage.getItem("mantenimiento");
 
-// 🔥 ESCUCHAR CAMBIOS
-onSnapshot(ref,(snap)=>{
+if (estadoLocal === "true") {
+  mostrarMantenimiento();
+} else {
+  if(loader) loader.style.display = "none";
+}
 
-  if(!snap.exists()) return;
+// 🚀 2. FIREBASE ACTUALIZA EN SEGUNDO PLANO
+const ref = doc(db, "config", "web");
+
+onSnapshot(ref, (snap) => {
+
+  if (!snap.exists()) return;
 
   const data = snap.data();
 
   console.log("📡 Estado mantenimiento:", data.mantenimiento);
 
-  // 🔥 GUARDAR ESTADO
+  // 🔥 guardar estado
   localStorage.setItem("mantenimiento", data.mantenimiento);
 
-  // 🔥 OCULTAR LOADER
+  // 🔥 ocultar loader SIEMPRE
   if(loader) loader.style.display = "none";
 
-  if(data.mantenimiento){
+  // 🔥 aplicar estado real
+  if (data.mantenimiento === true) {
     mostrarMantenimiento();
   }
 
 });
 
 </script>
-
 </body>
