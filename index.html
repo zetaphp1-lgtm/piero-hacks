@@ -403,137 +403,105 @@ togglePassword.addEventListener("click", () => {
 
 <script type="module">
 
-import { db } from "./js/firebase.js";
+import { db } from "./firebase.js";
 import { doc, onSnapshot } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
 
-console.log("🔥 FIREBASE CONECTADO");
+const ref = doc(db,"config","web");
 
-const loader = document.getElementById("loaderMantenimiento");
+// 🔥 GUARDAR TU WEB ORIGINAL
+const contenidoOriginal = document.body.innerHTML;
 
-// 🔥 TU DISEÑO PRO
-function mostrarMantenimiento() {
-  document.body.innerHTML = `
-  <div style="
-  position:fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-family:Orbitron, sans-serif;
-  background:#050507;
-  overflow:hidden;
-  ">
+onSnapshot(ref,(snap)=>{
 
-    <!-- FONDO GLOW -->
+  if(!snap.exists()) return;
+
+  const data = snap.data();
+
+  console.log("🔥 mantenimiento:", data.mantenimiento);
+
+  if(data.mantenimiento){
+
+    document.body.innerHTML = `
     <div style="
-    position:absolute;
+    position:fixed;
+    top:0;
+    left:0;
     width:100%;
     height:100%;
-    background:
-    radial-gradient(circle at 20% 20%, #00ff8822, transparent 40%),
-    radial-gradient(circle at 80% 80%, #00ffff22, transparent 40%);
-    "></div>
-
-    <!-- CAJA PRO -->
-    <div style="
-    position:relative;
-    padding:50px 40px;
-    border-radius:20px;
-    text-align:center;
-    max-width:400px;
-    width:90%;
-    z-index:2;
-
-    background:rgba(10,10,20,0.95);
-    border:1px solid #00ff88;
-
-    box-shadow:
-    0 0 20px #00ff88,
-    0 0 60px #00ff8844,
-    inset 0 0 15px #00ff8822;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-family:Orbitron, sans-serif;
+    background:#050507;
+    overflow:hidden;
     ">
 
-      <!-- ICONO -->
       <div style="
-      font-size:60px;
-      margin-bottom:15px;
-      text-shadow:0 0 15px #00ff88;
-      ">
-      🛠️
-      </div>
-
-      <!-- TITULO -->
-      <h1 style="
-      font-size:26px;
-      font-weight:900;
-      margin:0;
-      color:#00ff88;
-      text-shadow:0 0 15px #00ff88;
-      ">
-      ESTAMOS EN MANTENIMIENTO
-      </h1>
-
-      <!-- TEXTO -->
-      <p style="
-      margin-top:12px;
-      color:#aaa;
-      font-size:14px;
-      ">
-      Estamos mejorando el sistema para ti 🚀
-      </p>
-
-      <!-- LINEA -->
-      <div style="
-      margin-top:20px;
-      height:2px;
+      position:absolute;
       width:100%;
-      background:linear-gradient(90deg, transparent, #00ff88, transparent);
-      box-shadow:0 0 10px #00ff88;
+      height:100%;
+      background:
+      radial-gradient(circle at 20% 20%, #00ff8822, transparent 40%),
+      radial-gradient(circle at 80% 80%, #00ffff22, transparent 40%);
       "></div>
 
-      <!-- TEXTO WHATS -->
-      <p style="
-      margin-top:15px;
-      font-size:12px;
-      color:#00ff88;
-      letter-spacing:1px;
+      <div style="
+      position:relative;
+      padding:50px 40px;
+      border-radius:20px;
+      text-align:center;
+      max-width:400px;
+      width:90%;
+      z-index:2;
+
+      background:rgba(10,10,20,0.95);
+      border:1px solid #00ff88;
+
+      box-shadow:
+      0 0 20px #00ff88,
+      0 0 60px #00ff8844,
+      inset 0 0 15px #00ff8822;
       ">
-      ● ÚNETE AL GRUPO PARA AVISOS
-      </p>
 
-      <!-- BOTÓN WHATSAPP -->
-      <a href="https://chat.whatsapp.com/TU-LINK-AQUI" target="_blank" style="
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      gap:10px;
-      margin-top:20px;
-      padding:14px;
-      border-radius:12px;
-      text-decoration:none;
-      font-weight:bold;
-      font-size:14px;
-      color:white;
+        <div style="font-size:60px;">🛠️</div>
 
-      background:linear-gradient(90deg,#00ff88,#25D366);
-      box-shadow:0 0 15px #25D366, 0 0 30px #00ff88;
+        <h1 style="color:#00ff88;">
+        ESTAMOS EN MANTENIMIENTO
+        </h1>
 
-      transition:0.3s;
-      " onmouseover="this.style.transform='scale(1.05)'" 
-         onmouseout="this.style.transform='scale(1)'">
+        <p style="color:#aaa;">
+        Estamos mejorando el sistema para ti 🚀
+        </p>
 
+        <a href="https://chat.whatsapp.com/TU-LINK-AQUI" target="_blank"
+        style="
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        margin-top:20px;
+        padding:14px;
+        border-radius:12px;
+        text-decoration:none;
+        font-weight:bold;
+        color:white;
+        background:linear-gradient(90deg,#00ff88,#25D366);
+        ">
         📲 GRUPO DE WHATSAPP
+        </a>
 
-      </a>
-
+      </div>
     </div>
+    `;
 
-  </div>
-  `;
-}
+  } else {
+
+    // 🔥 RESTAURAR TU WEB
+    document.body.innerHTML = contenidoOriginal;
+
+  }
+
+});
+
 
 // 🚀 1. RESPUESTA INSTANTÁNEA (SIN ESPERAR FIREBASE)
 const estadoLocal = localStorage.getItem("mantenimiento");
@@ -545,7 +513,7 @@ if (estadoLocal === "true") {
 }
 
 // 🚀 2. FIREBASE ACTUALIZA EN SEGUNDO PLANO
-const ref = doc(db, "config", "web");
+
 
 onSnapshot(ref, (snap) => {
 
