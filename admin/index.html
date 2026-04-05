@@ -114,7 +114,9 @@ grid-template-columns:repeat(4,1fr);
 gap:20px;
 
 padding:0 12px;
-box-sizing:border-box;
+
+/* 🔥 ESTO ES CLAVE */
+justify-items:stretch;
 }
 
 /* 📱 TABLET */
@@ -426,11 +428,6 @@ font-family:'Orbitron',sans-serif;
 background:#050507;
 color:#fff;
 overflow-x:hidden;
-
-/* 🔥 FIX */
-display:flex;
-flex-direction:column;
-align-items:center;
 }
 
 .pendiente{background:orange;color:#000;}
