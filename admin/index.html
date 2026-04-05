@@ -126,29 +126,47 @@ gap:20px;
 
 /* 📱 TELÉFONO PEQUEÑO */
 @media(max-width:500px){
+
 .grid{
 grid-template-columns:repeat(2,1fr);
-gap:15px;
+gap:12px;
 padding:0 10px;
 }
+
+.card{
+aspect-ratio:1/1;
+padding:12px;
 }
 
-@media(max-width:500px){
-.card{
-padding:20px;
+.icon-box{
+width:50px;
+height:50px;
+font-size:22px;
+margin-bottom:10px;
 }
 
 .card h2{
-font-size:16px;
+font-size:13px;
+line-height:1.2;
 }
 
 .card p{
-font-size:12px;
+font-size:11px;
 }
+
+.arrow{
+width:28px;
+height:28px;
+font-size:12px;
+bottom:10px;
+right:10px;
+}
+
 }
 
 /* ===== CARD GAMER ===== */
 .card{
+    aspect-ratio:1/1; /* 🔥 ESTO LAS HACE CUADRADAS */
 background:linear-gradient(145deg,#06060f,#0b0b12);
 border-radius:22px;
 padding:30px;
